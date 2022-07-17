@@ -13,12 +13,22 @@ const LandingPage = () => {
           <label htmlFor="expIncome" className="grey-text">
             Expected Income
           </label>
-          <input type="number" id="ExpIncome" className="form-control" />
+          <input
+            type="number"
+            id="ExpIncome"
+            className="form-control"
+            placeholder="Enter amount"
+          />
           <br />
           <label htmlFor="expExpenditure" className="grey-text">
             Expected Expenditure
           </label>
-          <input type="number" id="ExpExpenditure" className="form-control" />
+          <input
+            type="number"
+            id="ExpExpenditure"
+            className="form-control"
+            placeholder="Enter amount"
+          />
           <br />
           <div className="text-center mb-4 mt-4">
             <button type="submit" className="btn btn-primary ">
