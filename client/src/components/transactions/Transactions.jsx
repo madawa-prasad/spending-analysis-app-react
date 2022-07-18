@@ -2,15 +2,14 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Table from '../table/Table';
 import PieChartD from '../charts/PieChartD';
+import TransactionModal from '../modals/TransactionModal';
 
 const Transactions = () => {
   return (
     <>
-      <div className="row d-flex flex-row">
-        <div className="col-5 m-2 d-flex justify-content-center">
-          <button className="btn btn-primary m-3 ps-5 pe-5">
-            Add Transaction
-          </button>
+      <div className="row ms-3 d-flex flex-row">
+        <div className="col-5 m-4 ms-0 d-flex justify-content-center">
+          <TransactionModal />
         </div>
         <div className="col-6  d-flex justify-content-end">
           <div className="row d-flex align-items-center">

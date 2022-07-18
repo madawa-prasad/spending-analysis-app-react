@@ -1,21 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Footer from '../components/footer/Footer';
+import DropDownInput from '../components/inputs/DropDownInput';
+import SetBudget from '../components/modals/SetBudget';
 import Navbar from '../components/navbar/Navbar';
 import Transactions from '../components/transactions/Transactions';
+import { monthOptions } from '../data/monthOptions';
 
 const HomePage = () => {
+  let d = new Date();
+  let m = monthOptions[d.getMonth()];
+
+  const [month, setMonth] = useState(m);
+
+  console.log(month.value, m.value);
   return (
     <>
       <div className="bg-light">
         <Navbar />
         <section className="container top mb-4 bg-light">
+          <div className="row d-flex flex-row justify-content-end mb-3 pe-3">
+            <DropDownInput
+              options={monthOptions}
+              className="col-2 me-4 mt-2"
+              placeholder="Select Month"
+              name="month"
+              value={month}
+              defaultValue={m}
+              onChange={setMonth}
+            />
+          </div>
           <div className="row">
             <div className="col bg-dark mt-2 mb-2 ms-5 me-3 rounded-3 expected ">
               <div className="d-flex flex-row justify-content-between">
                 <span className="title text-white fw-bold">Planned budget</span>
-                <i className="bi bi-pencil-square text-white"></i>
+                {/* <i className="bi bi-pencil-square text-white"></i> */}
+                <SetBudget />
               </div>
               <div className="d-flex flex-row justify-content-around mb-3">
                 <div className="d-flex flex-column text-center">
@@ -51,11 +72,11 @@ const HomePage = () => {
         <section className="container body mb-4 bg-light">
           <div className="row">
             <div className="col bg-dark p-3 mb-2 ms-5 me-5 rounded-3 ">
-              <div className="d-flex row bg-light ms-2 me-2 mt-2 mb-4 rounded-pill p-2">
+              <div className="d-flex row bg-light ms-2 me-2 mt-2 mb-4 rounded-3 p-2">
                 <ul className="nav nav-pills d-flex justify-content-between">
                   <li className="nav-item col-6" role="presentation">
                     <button
-                      className="nav-link col-12 rounded-pill ps-5 pe-5 active"
+                      className="nav-link col-12 rounded-3 ps-5 pe-5 active"
                       id="home-tab"
                       data-bs-toggle="tab"
                       data-bs-target="#home"
@@ -69,7 +90,7 @@ const HomePage = () => {
                   </li>
                   <li className="nav-item col-6" role="presentation">
                     <button
-                      className="nav-link ms-2 col-12 rounded-pill ps-5 pe-5 "
+                      className="nav-link ms-2 col-12 rounded-3 ps-5 pe-5 "
                       id="profile-tab"
                       data-bs-toggle="tab"
                       data-bs-target="#profile"
