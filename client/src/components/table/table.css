@@ -1,0 +1,16 @@
+thead {
+  position: sticky;
+}
+
+.table-wrapper {
+  height: 50vh;
+}
+
+.bi {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.bi-trash {
+  color: red;
+}
