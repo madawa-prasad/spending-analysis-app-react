@@ -1,0 +1,52 @@
+/* table {
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #efefef;
+}
+thead,
+tbody {
+  display: block;
+}
+tbody {
+  height: 50vh;
+  overflow-y: scroll;
+} */
+/*
+td,
+th {
+  min-width: 100px;
+  height: 30px;
+  border: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+tr {
+  display: flex;
+  align-items: center;
+}
+
+.desc {
+  min-width: 150px;
+}
+.btn-table {
+  min-width: 20px;
+} */
+thead {
+  position: sticky;
+}
+
+.table-wrapper {
+  height: 50vh;
+}
+
+.bi {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.bi-trash {
+  color: red;
+}
