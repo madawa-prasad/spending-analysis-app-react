@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
@@ -12,7 +13,9 @@ const Navbar = () => {
             height="30"
             className="d-inline-block align-text-top"
           />
-          <span className="ms-3 font-weight-bold">Spending Analysis App</span>
+          <Link to="/home" className="text-decoration-none">
+            <span className="ms-3 font-weight-bold">Spending Analysis App</span>
+          </Link>
         </span>
       </div>
     </nav>

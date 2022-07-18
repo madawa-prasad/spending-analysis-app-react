@@ -1,7 +1,7 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Table from '../table/Table';
-import PieChartD from '../transaction-chart/PieChartD';
+import PieChartD from '../charts/PieChartD';
 
 const Transactions = () => {
   return (
