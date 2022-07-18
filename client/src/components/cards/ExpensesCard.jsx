@@ -1,5 +1,5 @@
 import React from 'react';
-import ProgressBarD from '../progress/ProgressBarD';
+import ProgressBarD from '../progressbar/ProgressBarD';
 
 const ExpensesCard = () => {
   return (
