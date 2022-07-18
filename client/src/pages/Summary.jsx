@@ -45,14 +45,10 @@ const Summary = () => {
               </div>
               <div className="d-flex flex-row w-100 mt-3 p-0">
                 <div className="col bg-dark p-3 mb-2 ms-3 me-4 rounded-3 ">
-                  <div className="d-flex row bg-light ms-2 me-3 mt-2 mb-4 rounded-3 p-2">
-                    <PieChartD title={`${m.value} Incomes`} />
-                  </div>
+                  <PieChartD title={`${m.value} Incomes`} />
                 </div>
                 <div className="col bg-dark p-3 mb-2 ms-1 me-5 rounded-3 ">
-                  <div className="d-flex row bg-light ms-2 me-2 mt-2 mb-4 rounded-3 p-2">
-                    <PieChartD title={`${m.value} Expenses`} />
-                  </div>
+                  <PieChartD title={`${m.value} Expenses`} />
                 </div>
               </div>
             </div>
