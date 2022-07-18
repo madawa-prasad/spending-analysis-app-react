@@ -7,6 +7,7 @@ import Footer from '../components/footer/Footer';
 import DropDownInput from '../components/inputs/DropDownInput';
 import { monthOptions } from '../data/monthOptions';
 import Navbar from '../components/navbar/Navbar';
+import PieChartD from '../components/charts/PieChartD';
 
 const Summary = () => {
   let d = new Date();
@@ -38,8 +39,20 @@ const Summary = () => {
             <div className="row">
               <div className="col bg-dark p-3 mb-2 ms-3 me-5 rounded-3 ">
                 <div className="d-flex row bg-light ms-2 me-2 mt-2 mb-4 rounded-3 p-2">
-                  <p className="text-dark">July Incomes & Expences</p>
+                  <p className="text-dark">{m.value} Incomes & Expences</p>
                   <LineChartD className="col-12 d-flex " />
+                </div>
+              </div>
+              <div className="d-flex flex-row w-100 mt-3 p-0">
+                <div className="col bg-dark p-3 mb-2 ms-3 me-4 rounded-3 ">
+                  <div className="d-flex row bg-light ms-2 me-3 mt-2 mb-4 rounded-3 p-2">
+                    <PieChartD title={`${m.value} Incomes`} />
+                  </div>
+                </div>
+                <div className="col bg-dark p-3 mb-2 ms-1 me-5 rounded-3 ">
+                  <div className="d-flex row bg-light ms-2 me-2 mt-2 mb-4 rounded-3 p-2">
+                    <PieChartD title={`${m.value} Expenses`} />
+                  </div>
                 </div>
               </div>
             </div>
