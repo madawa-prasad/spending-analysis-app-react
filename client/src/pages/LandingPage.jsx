@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Footer from '../components/footer/Footer';
 import Navbar from '../components/navbar/Navbar';
 
@@ -31,9 +32,11 @@ const LandingPage = () => {
           />
           <br />
           <div className="text-center mb-4 mt-4">
-            <button type="submit" className="btn btn-primary ">
-              Get Stated
-            </button>
+            <Link to="/home">
+              <button type="button" className="btn btn-primary">
+                Get Stated
+              </button>
+            </Link>
           </div>
         </form>
         <br />
