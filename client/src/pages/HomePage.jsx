@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Footer from '../components/footer/Footer';
 import Navbar from '../components/navbar/Navbar';
@@ -27,19 +28,22 @@ const HomePage = () => {
               </div>
             </div>
           </div>
+
           <div className="col bg-dark mt-2 mb-2 ms-3 me-5 rounded-3 actual">
-            <span className="title text-white fw-bold">Actual budget</span>
-            <div className="d-flex flex-row justify-content-around mt-2 mb-3">
-              <div className="d-flex flex-column text-center">
-                <span className="text-white">INCOME</span>
-                <span className="text-white fs-1 fw-bold">350 $</span>
+            <Link to="/summary" className="text-decoration-none">
+              <span className="title text-white fw-bold">Actual budget</span>
+              <div className="d-flex flex-row justify-content-around mt-2 mb-3">
+                <div className="d-flex flex-column text-center">
+                  <span className="text-white">INCOME</span>
+                  <span className="text-white fs-1 fw-bold">350 $</span>
+                </div>
+                <div className="border-end"></div>
+                <div className="d-flex flex-column text-center">
+                  <span className="text-white">EXPENDITURE</span>
+                  <span className="text-white fs-1 fw-bold">350 $</span>
+                </div>
               </div>
-              <div className="border-end"></div>
-              <div className="d-flex flex-column text-center">
-                <span className="text-white">EXPENDITURE</span>
-                <span className="text-white fs-1 fw-bold">350 $</span>
-              </div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
