@@ -57,6 +57,20 @@ app.put('/budget/:id', async (req, res) => {
   }
 });
 
+//Get a certain budget
+app.get('/budget/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const budget = await pool.query(
+      'SELECT * FROM estimated_budget WHERE est_id = $1',
+      [id]
+    );
+    res.json(budget.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 //INCOMES RELATED
 
 //Create Income*
