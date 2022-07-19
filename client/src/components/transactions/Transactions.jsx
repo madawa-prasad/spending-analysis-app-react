@@ -1,10 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Table from '../table/Table';
 import PieChartD from '../charts/PieChartD';
 import TransactionModal from '../modals/TransactionModal';
 
 const Transactions = () => {
+  const [incomes, setIncomes] = useState([]);
+
+  //Fetching All Data
+  const getIncomes = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/incomes');
+      const jsonData = await response.json();
+      setIncomes(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  //Delete specific record
+  const handleDelete = async (id) => {
+    try {
+      const delIncome = await fetch(`http://localhost:5000/incomes/${id}`, {
+        method: 'DELETE',
+      });
+      setIncomes(incomes.filter((income) => income.inc_id !== id));
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getIncomes();
+  }, []);
+
   return (
     <>
       <div className="row ms-3 d-flex flex-row">
@@ -20,7 +49,6 @@ const Transactions = () => {
               <Dropdown.Toggle variant="primary" id="dropdown-basic">
                 Select Category
               </Dropdown.Toggle>
-
               <Dropdown.Menu>
                 <Dropdown.Item href="/action-1">Foods</Dropdown.Item>
                 <Dropdown.Item href="/action-2">Bills</Dropdown.Item>
@@ -34,7 +62,7 @@ const Transactions = () => {
             <PieChartD />
           </div>
           <div className="col-7 p-0">
-            <Table />
+            <Table data={incomes} deleteRec={handleDelete} />
           </div>
         </div>
       </div>
