@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import DropDownInput from '../inputs/DropDownInput';
-import Form from 'react-bootstrap/Form';
 
 const initialValues = {
   description: '',
@@ -11,7 +10,7 @@ const initialValues = {
   amount: '',
 };
 
-const TransactionModal = () => {
+const TransactionModal = (props) => {
   const [show, setShow] = useState(false);
   const [category, setCategory] = useState('');
   const [validated, setValidated] = useState(false);
@@ -30,39 +29,25 @@ const TransactionModal = () => {
 
   const handleShow = () => setShow(true);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
-  };
-
-  console.log(values);
-
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    setValidated(true);
+  const handleSubmit = () => {
     setShow(false);
   };
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Add Transaction
-      </Button>
+      {props.edit ? (
+        <i className="bi bi-pencil-square text-dark" onClick={handleShow}></i>
+      ) : (
+        <Button variant="primary" onClick={handleShow}>
+          Add Transaction
+        </Button>
+      )}
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Transaction</Modal.Title>
+          <Modal.Title>{props.edit ? 'Edit' : 'Add'} Transaction</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form
-            noValidate
-            validated={validated}
+          <form
             onSubmit={handleSubmit}
             className="w-750 mt-5 mb-5 mx-auto bg-light p-3 rounded-3"
           >
@@ -76,7 +61,6 @@ const TransactionModal = () => {
               className="form-control"
               placeholder="Enter description"
               required
-              onChange={handleInputChange}
             />
             <br />
             <label htmlFor="category" className="grey-text">
@@ -101,7 +85,6 @@ const TransactionModal = () => {
               className="form-control"
               placeholder="Select date"
               required
-              onChange={handleInputChange}
             />
             <br />
             <label htmlFor="amount" className="grey-text">
@@ -113,7 +96,6 @@ const TransactionModal = () => {
               className="form-control"
               placeholder="Enter amount"
               required
-              onChange={handleInputChange}
             />
             <br />
 
@@ -125,7 +107,7 @@ const TransactionModal = () => {
                 Save Changes
               </Button>
             </Modal.Footer>
-          </Form>
+          </form>
         </Modal.Body>
       </Modal>
     </>

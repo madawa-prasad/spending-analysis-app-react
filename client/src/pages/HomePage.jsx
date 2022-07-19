@@ -14,7 +14,6 @@ const HomePage = () => {
 
   const [month, setMonth] = useState(m);
 
-  console.log(month.value, m.value);
   return (
     <>
       <div className="bg-light">
