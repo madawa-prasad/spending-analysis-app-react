@@ -214,6 +214,16 @@ app.delete('/expenses/:id', async (req, res) => {
   }
 });
 
+//Get all transactions*
+app.get('/transactions', async (req, res) => {
+  try {
+    const allIncomes = await pool.query('SELECT * FROM transactions');
+    res.json(allIncomes.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 //SERVER
 app.listen(5000, () => {
   console.log('Server has started on port 5000');
