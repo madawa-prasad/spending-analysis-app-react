@@ -13,6 +13,7 @@ const HomePage = () => {
   let m = monthOptions[d.getMonth()];
 
   const [month, setMonth] = useState(m);
+  const [trType, setTrType] = useState(true);
 
   return (
     <>
@@ -83,6 +84,7 @@ const HomePage = () => {
                       role="tab"
                       aria-controls="home"
                       aria-selected="true"
+                      onClick={() => setTrType(true)}
                     >
                       INCOMES
                     </button>
@@ -97,6 +99,7 @@ const HomePage = () => {
                       role="tab"
                       aria-controls="profile"
                       aria-selected="false"
+                      onClick={() => setTrType(false)}
                     >
                       EXPENSES
                     </button>
@@ -104,7 +107,7 @@ const HomePage = () => {
                 </ul>
               </div>
               <div className="row bg-light d-flex mt-2 mb-2 ms-2 me-2 rounded-3">
-                <Transactions />
+                <Transactions trType={trType} />
               </div>
             </div>
           </div>

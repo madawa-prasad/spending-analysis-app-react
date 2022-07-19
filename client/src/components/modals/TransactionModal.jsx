@@ -3,18 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import DropDownInput from '../inputs/DropDownInput';
 
-const initialValues = {
-  description: '',
-  category: '',
-  date: '',
-  amount: '',
-};
-
 const TransactionModal = (props) => {
   const [show, setShow] = useState(false);
   const [category, setCategory] = useState('');
-  const [validated, setValidated] = useState(false);
-  const [values, setValues] = useState(initialValues);
 
   const categories = [
     { value: 'Salary', label: 'Salary' },
