@@ -3,7 +3,7 @@ import TransactionModal from '../modals/TransactionModal';
 
 import './table.css';
 
-const Table = ({ data, deleteRec }) => {
+const Table = ({ data, deleteTransaction }) => {
   //Recording month and date in table
   const getMonthDate = (d) => {
     var date = new Date(d);
@@ -40,21 +40,21 @@ const Table = ({ data, deleteRec }) => {
               </tr>
             </thead>
             <tbody>
-              {data.map((income, index) => (
+              {data.map((transaction, index) => (
                 <tr key={index}>
-                  <td className="">{income.inc_description}</td>
-                  <td className="text-center">{income.inc_category}</td>
+                  <td className="">{transaction.tr_description}</td>
+                  <td className="text-center">{transaction.tr_category}</td>
                   <td className="text-center">
-                    {getMonthDate(income.inc_date)}
+                    {getMonthDate(transaction.tr_date)}
                   </td>
-                  <td className="text-center">{income.inc_amount}</td>
+                  <td className="text-center">{transaction.tr_amount}</td>
                   <td className="text-center">
                     <TransactionModal edit={true} />
                   </td>
                   <td className="text-center">
                     <i
                       className="bi bi-trash"
-                      onClick={() => deleteRec(income.inc_id)}
+                      onClick={() => deleteTransaction(transaction.tr_id)}
                     ></i>
                   </td>
                 </tr>

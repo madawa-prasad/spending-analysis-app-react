@@ -5,18 +5,16 @@ import PieChartD from '../charts/PieChartD';
 import TransactionModal from '../modals/TransactionModal';
 
 const Transactions = ({ trType }) => {
-  const [incomes, setIncomes] = useState([]);
-
-  console.log(trType);
+  const [transactions, setTransactions] = useState([]);
 
   //Fetching All Data
-  const getIncomes = async () => {
+  const getTransactions = async () => {
     try {
       const response = await fetch(
         `http://localhost:5000/${trType ? 'incomes' : 'expenses'}`
       );
       const jsonData = await response.json();
-      setIncomes(jsonData);
+      setTransactions(jsonData);
     } catch (err) {
       console.error(err.message);
     }
@@ -25,18 +23,23 @@ const Transactions = ({ trType }) => {
   //Delete specific record
   const handleDelete = async (id) => {
     try {
-      const delIncome = await fetch(`http://localhost:5000/incomes/${id}`, {
-        method: 'DELETE',
-      });
-      setIncomes(incomes.filter((income) => income.inc_id !== id));
+      const deleteTransaction = await fetch(
+        `http://localhost:5000/${trType ? 'incomes' : 'expenses'}/${id}`,
+        {
+          method: 'DELETE',
+        }
+      );
+      setTransactions(
+        transactions.filter((transaction) => transaction.tr_id !== id)
+      );
     } catch (err) {
       console.error(err.message);
     }
   };
 
   useEffect(() => {
-    getIncomes();
-  }, []);
+    getTransactions();
+  }, [trType]);
 
   return (
     <>
@@ -64,7 +67,7 @@ const Transactions = ({ trType }) => {
             <PieChartD />
           </div>
           <div className="col-7 p-0">
-            <Table data={incomes} deleteRec={handleDelete} />
+            <Table data={transactions} deleteTransaction={handleDelete} />
           </div>
         </div>
       </div>
