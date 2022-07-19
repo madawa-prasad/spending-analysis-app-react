@@ -4,13 +4,17 @@ import Table from '../table/Table';
 import PieChartD from '../charts/PieChartD';
 import TransactionModal from '../modals/TransactionModal';
 
-const Transactions = () => {
+const Transactions = ({ trType }) => {
   const [incomes, setIncomes] = useState([]);
+
+  console.log(trType);
 
   //Fetching All Data
   const getIncomes = async () => {
     try {
-      const response = await fetch('http://localhost:5000/incomes');
+      const response = await fetch(
+        `http://localhost:5000/${trType ? 'incomes' : 'expenses'}`
+      );
       const jsonData = await response.json();
       setIncomes(jsonData);
     } catch (err) {
@@ -51,8 +55,6 @@ const Transactions = () => {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item href="/action-1">Foods</Dropdown.Item>
-                <Dropdown.Item href="/action-2">Bills</Dropdown.Item>
-                <Dropdown.Item href="/action-3">Fuel</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
