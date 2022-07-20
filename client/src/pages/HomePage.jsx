@@ -48,10 +48,14 @@ const HomePage = () => {
   useEffect(() => {
     getBudget();
     getAllTransactions();
+  }, [isIncome, month, year]);
+
+  useEffect(() => {
+    getBudget();
     return () => {
       setBudget([]);
     };
-  }, [isIncome, month, year]);
+  }, [month, year]);
 
   //Getting SUM incomes//
   //Filtering incomes and expenses
@@ -72,9 +76,10 @@ const HomePage = () => {
     return sum;
   };
 
-  useEffect(() => {
-    console.log('month :>> ', month);
-  }, [month]);
+  // useEffect(() => {
+  //   console.log(month);
+  // }, [month]);
+
   return (
     <>
       <div className="bg-light">
