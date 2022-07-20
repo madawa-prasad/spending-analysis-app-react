@@ -121,7 +121,7 @@ app.put('/incomes/:id', async (req, res) => {
 app.get('/incomes', async (req, res) => {
   try {
     const allIncomes = await pool.query(
-      'SELECT * FROM transactions CROSS JOIN categories WHERE tr_is_income = TRUE'
+      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE tr_is_income = TRUE'
     );
     res.json(allIncomes.rows);
   } catch (err) {
@@ -192,7 +192,7 @@ app.put('/expenses/:id', async (req, res) => {
 app.get('/expenses', async (req, res) => {
   try {
     const allIncomes = await pool.query(
-      'SELECT * FROM transactions WHERE tr_is_income = FALSE'
+      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE tr_is_income = FALSE'
     );
     res.json(allIncomes.rows);
   } catch (err) {
@@ -218,7 +218,7 @@ app.delete('/expenses/:id', async (req, res) => {
 app.get('/transactions', async (req, res) => {
   try {
     const allIncomes = await pool.query(
-      'SELECT * FROM transactions ORDER BY tr_date ASC'
+      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id ORDER BY tr_date ASC'
     );
     res.json(allIncomes.rows);
   } catch (err) {
