@@ -13,6 +13,8 @@ const TransactionModal = (props) => {
   const categories = props.categories;
   const edit = props.edit;
 
+  console.log(values.tr_id);
+
   const handleClose = () => {
     setShow(false);
   };
@@ -31,11 +33,22 @@ const TransactionModal = (props) => {
     }
   };
 
+  //Handle change
+  const changeHandler = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+    console.log(e.target.value);
+  };
+
   //Editting existing todos
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
-      const body = {};
+      const body = {
+        tr_description: 'Test expense modified twise',
+        tr_category: 9,
+        tr_amount: 100,
+        tr_date: '2022-07-12 12:40:57.185059',
+      };
       const response = await fetch(
         `http://localhost:5000/transactions/${transaction.tr_id}`,
         {
@@ -44,17 +57,16 @@ const TransactionModal = (props) => {
           body: JSON.stringify(body),
         }
       );
+      setShow(false);
       window.location = '/';
     } catch (err) {
       console.error(err.message);
+      setShow(false);
     }
   };
 
-  //Handle change
-  const changeHandler = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-    console.log(e.target.value);
-  };
+  //Handle Submit
+  const handleSubmit = () => {};
 
   //Generate date string
   const generateDateString = (dateObject) => {
@@ -150,7 +162,9 @@ const TransactionModal = (props) => {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary">Save Changes</Button>
+            <Button variant="primary" onClick={(e) => handleEdit(e)}>
+              Save Changes
+            </Button>
           </Modal.Footer>
           {/* </form> */}
         </Modal.Body>
