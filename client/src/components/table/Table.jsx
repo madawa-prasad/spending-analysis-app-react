@@ -43,7 +43,7 @@ const Table = ({ data, deleteTransaction }) => {
               {data.map((transaction, index) => (
                 <tr key={index}>
                   <td className="">{transaction.tr_description}</td>
-                  <td className="text-center">{transaction.tr_category}</td>
+                  <td className="text-center">{transaction.cat_title}</td>
                   <td className="text-center">
                     {getMonthDate(transaction.tr_date)}
                   </td>

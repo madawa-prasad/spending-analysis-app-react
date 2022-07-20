@@ -5,7 +5,7 @@ import IncomeCard from '../components/cards/IncomesCard';
 import LineChartD from '../components/charts/LineChartD';
 import Footer from '../components/footer/Footer';
 import DropDownInput from '../components/inputs/DropDownInput';
-import { monthOptions } from '../data/monthOptions';
+import { monthOptions } from '../data/dropDownOptions';
 import Navbar from '../components/navbar/Navbar';
 import PieChartD from '../components/charts/PieChartD';
 

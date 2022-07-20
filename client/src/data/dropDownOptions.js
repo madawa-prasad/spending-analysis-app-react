@@ -13,6 +13,12 @@ export const monthOptions = [
   { value: '12', label: 'December' },
 ];
 
+export const yearOptions = [
+  { value: '2022', label: '2022' },
+  { value: '2023', label: '2023' },
+  { value: '2024', label: '2024' },
+];
+
 export const categories = [
   { cat_id: 1, cat_is_income: true, cat_title: 'A' },
   { cat_id: 2, cat_is_income: true, cat_title: 'B' },

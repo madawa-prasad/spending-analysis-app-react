@@ -6,7 +6,7 @@ import DropDownInput from '../components/inputs/DropDownInput';
 import SetBudget from '../components/modals/SetBudget';
 import Navbar from '../components/navbar/Navbar';
 import Transactions from '../components/transactions/Transactions';
-import { monthOptions } from '../data/monthOptions';
+import { monthOptions, yearOptions } from '../data/dropDownOptions';
 
 const HomePage = () => {
   let d = new Date();
@@ -14,29 +14,25 @@ const HomePage = () => {
   let m = d.getMonth() + 1;
   let monthName = monthOptions[m - 1];
 
-  let _id = y + '' + m;
-  console.log(monthName.label);
-  console.log(_id);
-
   const [month, setMonth] = useState(monthName);
+  const [year, setYear] = useState(yearOptions[0]);
   const [isIncome, setIsIncome] = useState(true);
   const [budget, setBudget] = useState([]);
   const [allTransactions, setAllTransactions] = useState([]);
 
+  let _id = year.value + '' + month.value;
+  console.log(_id);
+
   //Fetching budget data
   const getBudget = async () => {
     try {
-      const response = await fetch('http://localhost:5000/budget/20227');
+      const response = await fetch(`http://localhost:5000/budget/${_id}`);
       const jsonData = await response.json();
       setBudget(jsonData);
     } catch (err) {
       console.error(err.message);
     }
   };
-
-  // useEffect(() => {
-  //   getBudget();
-  // }, [trType]);
 
   //Fetch all transactions
   const getAllTransactions = async () => {
@@ -52,7 +48,10 @@ const HomePage = () => {
   useEffect(() => {
     getBudget();
     getAllTransactions();
-  }, [isIncome]);
+    return () => {
+      setBudget([]);
+    };
+  }, [isIncome, month, year]);
 
   //Getting SUM incomes//
   //Filtering incomes and expenses
@@ -76,29 +75,26 @@ const HomePage = () => {
   useEffect(() => {
     console.log('month :>> ', month);
   }, [month]);
-
   return (
     <>
       <div className="bg-light">
         <Navbar />
         <section className="container top mb-4 bg-light">
           <div className="row d-flex flex-row justify-content-end mb-3 pe-3">
-            {/* <DropDownInput
-              options={monthOptions}
+            <DropDownInput
+              options={yearOptions}
               className="col-2 me-4 mt-2"
               placeholder="Select Year"
-              name="month"
-              value={month}
-              defaultValue={m}
-              onChange={setMonth}
-            /> */}
+              name="year"
+              value={year}
+              onChange={setYear}
+            />
             <DropDownInput
               options={monthOptions}
               className="col-2 me-4 mt-2"
               placeholder="Select Month"
               name="month"
               value={month}
-              defaultValue={m}
               onChange={setMonth}
             />
           </div>
