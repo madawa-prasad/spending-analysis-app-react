@@ -37,7 +37,7 @@ const HomePage = () => {
   //Fetch all transactions
   const getAllTransactions = async () => {
     try {
-      const response = await fetch('http://localhost:5000/transactions');
+      const response = await fetch(`http://localhost:5000/transactions/${_id}`);
       const jsonData = await response.json();
       setAllTransactions(jsonData);
     } catch (err) {

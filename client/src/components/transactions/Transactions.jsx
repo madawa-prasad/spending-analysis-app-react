@@ -24,7 +24,7 @@ const Transactions = ({ isIncome }) => {
   const handleDelete = async (id) => {
     try {
       const deleteTransaction = await fetch(
-        `http://localhost:5000/${isIncome ? 'incomes' : 'expenses'}/${id}`,
+        `http://localhost:5000/transactions/${id}`,
         {
           method: 'DELETE',
         }
