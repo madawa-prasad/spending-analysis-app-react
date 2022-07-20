@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import Footer from '../components/footer/Footer';
@@ -14,6 +14,62 @@ const HomePage = () => {
 
   const [month, setMonth] = useState(m);
   const [trType, setTrType] = useState(true);
+  const [budget, setBudget] = useState([]);
+  const [allTransactions, setAllTransactions] = useState([]);
+
+  //Fetching budget data
+  const getBudget = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/budget/20227');
+      const jsonData = await response.json();
+      setBudget(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  // useEffect(() => {
+  //   getBudget();
+  // }, [trType]);
+
+  //Fetch all transactions
+  const getAllTransactions = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/transactions');
+      const jsonData = await response.json();
+      setAllTransactions(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getBudget();
+    getAllTransactions();
+  }, [trType]);
+
+  //Getting SUM incomes//
+  //Filtering incomes and expenses
+  const filteredTransactions = (arr, isIncome) => {
+    const filteredTransactions = arr.filter((transaction) => {
+      return transaction.tr_is_income === isIncome;
+    });
+    return filteredTransactions;
+  };
+
+  const incomesArr = filteredTransactions(allTransactions, true);
+  const expensesArr = filteredTransactions(allTransactions, false);
+
+  const transactionsSum = (transactionsArray) => {
+    const sum = transactionsArray.reduce((a, b) => {
+      return a + Number(b.tr_amount);
+    }, 0);
+    return sum;
+  };
+
+  useEffect(() => {
+    console.log('month :>> ', month);
+  }, [month]);
 
   return (
     <>
@@ -21,6 +77,15 @@ const HomePage = () => {
         <Navbar />
         <section className="container top mb-4 bg-light">
           <div className="row d-flex flex-row justify-content-end mb-3 pe-3">
+            {/* <DropDownInput
+              options={monthOptions}
+              className="col-2 me-4 mt-2"
+              placeholder="Select Year"
+              name="month"
+              value={month}
+              defaultValue={m}
+              onChange={setMonth}
+            /> */}
             <DropDownInput
               options={monthOptions}
               className="col-2 me-4 mt-2"
@@ -41,12 +106,16 @@ const HomePage = () => {
               <div className="d-flex flex-row justify-content-around mb-3">
                 <div className="d-flex flex-column text-center">
                   <span className="text-white">INCOME</span>
-                  <span className="text-white fs-1 fw-bold">350 $</span>
+                  <span className="text-white fs-1 fw-bold">
+                    {budget.length === 0 ? 0 : budget.est_income} $
+                  </span>
                 </div>
                 <div className="border-end"></div>
                 <div className="d-flex flex-column text-center">
                   <span className="text-white">EXPENDITURE</span>
-                  <span className="text-white fs-1 fw-bold">350 $</span>
+                  <span className="text-white fs-1 fw-bold">
+                    {budget.length === 0 ? 0 : budget.est_expenditure} $
+                  </span>
                 </div>
               </div>
             </div>
@@ -57,12 +126,16 @@ const HomePage = () => {
                 <div className="d-flex flex-row justify-content-around mt-2 mb-3">
                   <div className="d-flex flex-column text-center">
                     <span className="text-white">INCOME</span>
-                    <span className="text-white fs-1 fw-bold">350 $</span>
+                    <span className="text-white fs-1 fw-bold">
+                      {transactionsSum(incomesArr)} $
+                    </span>
                   </div>
                   <div className="border-end"></div>
                   <div className="d-flex flex-column text-center">
                     <span className="text-white">EXPENDITURE</span>
-                    <span className="text-white fs-1 fw-bold">350 $</span>
+                    <span className="text-white fs-1 fw-bold">
+                      {transactionsSum(expensesArr)} $
+                    </span>
                   </div>
                 </div>
               </Link>
