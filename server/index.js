@@ -94,28 +94,6 @@ app.post('/incomes', async (req, res) => {
   }
 });
 
-// //Update income*
-// app.put('/incomes/:id', async (req, res) => {
-//   try {
-//     const id = parseInt(req.params.id);
-//     const { inc_description, inc_category, inc_amount, inc_date } = req.body;
-//     const updateIncome = await pool.query(
-//       'UPDATE transactions SET est_id = $1, tr_description = $2, tr_category = $3, tr_amount = $4, tr_date = $5 WHERE tr_id = $6',
-//       [
-//         calcEstId(inc_date)[0],
-//         inc_description,
-//         inc_category,
-//         inc_amount,
-//         inc_date,
-//         id,
-//       ]
-//     );
-//     res.json('Income has updated!');
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// });
-
 //Get all incomes*
 app.get('/incomes/:id', async (req, res) => {
   try {
@@ -130,27 +108,13 @@ app.get('/incomes/:id', async (req, res) => {
   }
 });
 
-// //Delete Income*
-// app.delete('/incomes/:id', async (req, res) => {
-//   try {
-//     const id = parseInt(req.params.id);
-//     const deleteIncome = await pool.query(
-//       'DELETE FROM transactions WHERE tr_id = $1',
-//       [id]
-//     );
-//     res.json(`This ${id}'th income has deleted!`);
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// });
-
 //EXPENSES
 //Create Expense*
 app.post('/expenses', async (req, res) => {
   try {
     const { exp_description, exp_category, exp_amount, exp_date } = req.body;
     const tr_is_income = false;
-    const newIncome = await pool.query(
+    const newExpense = await pool.query(
       'INSERT INTO transactions (est_id, tr_is_income, tr_description, tr_category, tr_amount, tr_date) VALUES($1,$2,$3,$4,$5,$6) RETURNING *',
       [
         calcEstId(exp_date)[0],
@@ -161,72 +125,36 @@ app.post('/expenses', async (req, res) => {
         exp_date,
       ]
     );
-    res.json(newIncome.rows[0]);
+    res.json(newExpense.rows[0]);
   } catch (err) {
     console.error(err.message);
   }
 });
-
-// //Update expense*
-// app.put('/expenses/:id', async (req, res) => {
-//   try {
-//     const id = parseInt(req.params.id);
-//     const { exp_description, exp_category, exp_amount, exp_date } = req.body;
-//     const updateIncome = await pool.query(
-//       'UPDATE transactions SET est_id = $1, tr_description = $2, tr_category = $3, tr_amount = $4, tr_date = $5 WHERE tr_id = $6',
-//       [
-//         calcEstId(exp_date)[0],
-//         exp_description,
-//         exp_category,
-//         exp_amount,
-//         exp_date,
-//         id,
-//       ]
-//     );
-//     res.json('Expense has updated!');
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// });
 
 //Get all expenses*
 app.get('/expenses/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const allIncomes = await pool.query(
+    const allExpenses = await pool.query(
       'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE tr_is_income = FALSE AND est_id = $1',
       [id]
     );
-    res.json(allIncomes.rows);
+    res.json(allExpenses.rows);
   } catch (err) {
     console.error(err.message);
   }
 });
-
-// //Delete transaction*
-// app.delete('/transactions/:id', async (req, res) => {
-//   try {
-//     const id = parseInt(req.params.id);
-//     const deleteIncome = await pool.query(
-//       'DELETE FROM transactions WHERE tr_id = $1',
-//       [id]
-//     );
-//     res.json(`This ${id}'th expense has deleted!`);
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// });
 
 //MONTHLY ALL TRANSACTIONS
 //Get all transactions of a month*
 app.get('/transactions/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const allIncomes = await pool.query(
+    const allTransactions = await pool.query(
       'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE est_id = $1 ORDER BY tr_date ASC',
       [id]
     );
-    res.json(allIncomes.rows);
+    res.json(allTransactions.rows);
   } catch (err) {
     console.error(err.message);
   }
@@ -258,7 +186,7 @@ app.put('/transactions/:id', async (req, res) => {
 app.delete('/transactions/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const deleteIncome = await pool.query(
+    const deleteTransaction = await pool.query(
       'DELETE FROM transactions WHERE tr_id = $1',
       [id]
     );
@@ -267,6 +195,23 @@ app.delete('/transactions/:id', async (req, res) => {
     console.error(err.message);
   }
 });
+
+//CATEGORIES
+//Get income categories
+app.get('/categories/:is_income', async (req, res) => {
+  try {
+    const is_income = req.params.is_income;
+    const categories = await pool.query(
+      'SELECT * FROM categories WHERE cat_is_income = $1',
+      [is_income]
+    );
+    res.json(categories.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+//Get expense categories
 
 //SERVER
 app.listen(5000, () => {
