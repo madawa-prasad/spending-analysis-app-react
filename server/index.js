@@ -217,7 +217,9 @@ app.delete('/expenses/:id', async (req, res) => {
 //Get all transactions*
 app.get('/transactions', async (req, res) => {
   try {
-    const allIncomes = await pool.query('SELECT * FROM transactions');
+    const allIncomes = await pool.query(
+      'SELECT * FROM transactions ORDER BY tr_date ASC'
+    );
     res.json(allIncomes.rows);
   } catch (err) {
     console.error(err.message);
