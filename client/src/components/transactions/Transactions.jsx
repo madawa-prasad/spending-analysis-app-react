@@ -4,14 +4,14 @@ import Table from '../table/Table';
 import PieChartD from '../charts/PieChartD';
 import TransactionModal from '../modals/TransactionModal';
 
-const Transactions = ({ isIncome }) => {
+const Transactions = ({ isIncome, est_id }) => {
   const [transactions, setTransactions] = useState([]);
 
   //Fetching All Data
   const getTransactions = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/${isIncome ? 'incomes' : 'expenses'}`
+        `http://localhost:5000/${isIncome ? 'incomes' : 'expenses'}/${est_id}`
       );
       const jsonData = await response.json();
       setTransactions(jsonData);
@@ -39,7 +39,7 @@ const Transactions = ({ isIncome }) => {
 
   useEffect(() => {
     getTransactions();
-  }, [isIncome]);
+  }, [isIncome, est_id]);
 
   return (
     <>

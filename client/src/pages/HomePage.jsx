@@ -182,7 +182,7 @@ const HomePage = () => {
                 </ul>
               </div>
               <div className="row bg-light d-flex mt-2 mb-2 ms-2 me-2 rounded-3">
-                <Transactions isIncome={isIncome} />
+                <Transactions isIncome={isIncome} est_id={_id} />
               </div>
             </div>
           </div>
