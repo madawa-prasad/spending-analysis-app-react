@@ -72,7 +72,6 @@ app.get('/budget/:id', async (req, res) => {
 });
 
 //INCOMES RELATED
-
 //Create Income*
 app.post('/incomes', async (req, res) => {
   try {
@@ -95,33 +94,35 @@ app.post('/incomes', async (req, res) => {
   }
 });
 
-//Update income*
-app.put('/incomes/:id', async (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    const { inc_description, inc_category, inc_amount, inc_date } = req.body;
-    const updateIncome = await pool.query(
-      'UPDATE transactions SET est_id = $1, tr_description = $2, tr_category = $3, tr_amount = $4, tr_date = $5 WHERE tr_id = $6',
-      [
-        calcEstId(inc_date)[0],
-        inc_description,
-        inc_category,
-        inc_amount,
-        inc_date,
-        id,
-      ]
-    );
-    res.json('Income has updated!');
-  } catch (err) {
-    console.error(err.message);
-  }
-});
+// //Update income*
+// app.put('/incomes/:id', async (req, res) => {
+//   try {
+//     const id = parseInt(req.params.id);
+//     const { inc_description, inc_category, inc_amount, inc_date } = req.body;
+//     const updateIncome = await pool.query(
+//       'UPDATE transactions SET est_id = $1, tr_description = $2, tr_category = $3, tr_amount = $4, tr_date = $5 WHERE tr_id = $6',
+//       [
+//         calcEstId(inc_date)[0],
+//         inc_description,
+//         inc_category,
+//         inc_amount,
+//         inc_date,
+//         id,
+//       ]
+//     );
+//     res.json('Income has updated!');
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// });
 
 //Get all incomes*
-app.get('/incomes', async (req, res) => {
+app.get('/incomes/:id', async (req, res) => {
   try {
+    const id = parseInt(req.params.id);
     const allIncomes = await pool.query(
-      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE tr_is_income = TRUE'
+      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE est_id = $1 AND tr_is_income = TRUE',
+      [id]
     );
     res.json(allIncomes.rows);
   } catch (err) {
@@ -129,19 +130,19 @@ app.get('/incomes', async (req, res) => {
   }
 });
 
-//Delete Income*
-app.delete('/incomes/:id', async (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    const deleteIncome = await pool.query(
-      'DELETE FROM transactions WHERE tr_id = $1',
-      [id]
-    );
-    res.json(`This ${id}'th income has deleted!`);
-  } catch (err) {
-    console.error(err.message);
-  }
-});
+// //Delete Income*
+// app.delete('/incomes/:id', async (req, res) => {
+//   try {
+//     const id = parseInt(req.params.id);
+//     const deleteIncome = await pool.query(
+//       'DELETE FROM transactions WHERE tr_id = $1',
+//       [id]
+//     );
+//     res.json(`This ${id}'th income has deleted!`);
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// });
 
 //EXPENSES
 //Create Expense*
@@ -166,33 +167,35 @@ app.post('/expenses', async (req, res) => {
   }
 });
 
-//Update expense*
-app.put('/expenses/:id', async (req, res) => {
+// //Update expense*
+// app.put('/expenses/:id', async (req, res) => {
+//   try {
+//     const id = parseInt(req.params.id);
+//     const { exp_description, exp_category, exp_amount, exp_date } = req.body;
+//     const updateIncome = await pool.query(
+//       'UPDATE transactions SET est_id = $1, tr_description = $2, tr_category = $3, tr_amount = $4, tr_date = $5 WHERE tr_id = $6',
+//       [
+//         calcEstId(exp_date)[0],
+//         exp_description,
+//         exp_category,
+//         exp_amount,
+//         exp_date,
+//         id,
+//       ]
+//     );
+//     res.json('Expense has updated!');
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// });
+
+//Get all expenses*
+app.get('/expenses/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const { exp_description, exp_category, exp_amount, exp_date } = req.body;
-    const updateIncome = await pool.query(
-      'UPDATE transactions SET est_id = $1, tr_description = $2, tr_category = $3, tr_amount = $4, tr_date = $5 WHERE tr_id = $6',
-      [
-        calcEstId(exp_date)[0],
-        exp_description,
-        exp_category,
-        exp_amount,
-        exp_date,
-        id,
-      ]
-    );
-    res.json('Expense has updated!');
-  } catch (err) {
-    console.error(err.message);
-  }
-});
-
-//Get all expense*
-app.get('/expenses', async (req, res) => {
-  try {
     const allIncomes = await pool.query(
-      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE tr_is_income = FALSE'
+      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE tr_is_income = FALSE AND est_id = $1',
+      [id]
     );
     res.json(allIncomes.rows);
   } catch (err) {
@@ -200,20 +203,21 @@ app.get('/expenses', async (req, res) => {
   }
 });
 
-//Delete expense*
-app.delete('/transactions/:id', async (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    const deleteIncome = await pool.query(
-      'DELETE FROM transactions WHERE tr_id = $1',
-      [id]
-    );
-    res.json(`This ${id}'th expense has deleted!`);
-  } catch (err) {
-    console.error(err.message);
-  }
-});
+// //Delete transaction*
+// app.delete('/transactions/:id', async (req, res) => {
+//   try {
+//     const id = parseInt(req.params.id);
+//     const deleteIncome = await pool.query(
+//       'DELETE FROM transactions WHERE tr_id = $1',
+//       [id]
+//     );
+//     res.json(`This ${id}'th expense has deleted!`);
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// });
 
+//MONTHLY ALL TRANSACTIONS
 //Get all transactions of a month*
 app.get('/transactions/:id', async (req, res) => {
   try {
@@ -223,6 +227,42 @@ app.get('/transactions/:id', async (req, res) => {
       [id]
     );
     res.json(allIncomes.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+//Update transaction*
+app.put('/transactions/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { tr_description, tr_category, tr_amount, tr_date } = req.body;
+    const updateTransaction = await pool.query(
+      'UPDATE transactions SET est_id = $1, tr_description = $2, tr_category = $3, tr_amount = $4, tr_date = $5 WHERE tr_id = $6',
+      [
+        calcEstId(tr_date)[0],
+        tr_description,
+        tr_category,
+        tr_amount,
+        tr_date,
+        id,
+      ]
+    );
+    res.json('Transaction has updated!');
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+//Delete transaction*
+app.delete('/transactions/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const deleteIncome = await pool.query(
+      'DELETE FROM transactions WHERE tr_id = $1',
+      [id]
+    );
+    res.json(`This ${id}'th transaction has deleted!`);
   } catch (err) {
     console.error(err.message);
   }
