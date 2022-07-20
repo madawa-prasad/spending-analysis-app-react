@@ -201,7 +201,7 @@ app.get('/expenses', async (req, res) => {
 });
 
 //Delete expense*
-app.delete('/expenses/:id', async (req, res) => {
+app.delete('/transactions/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const deleteIncome = await pool.query(
@@ -214,11 +214,13 @@ app.delete('/expenses/:id', async (req, res) => {
   }
 });
 
-//Get all transactions*
-app.get('/transactions', async (req, res) => {
+//Get all transactions of a month*
+app.get('/transactions/:id', async (req, res) => {
   try {
+    const id = parseInt(req.params.id);
     const allIncomes = await pool.query(
-      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id ORDER BY tr_date ASC'
+      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE est_id = $1 ORDER BY tr_date ASC',
+      [id]
     );
     res.json(allIncomes.rows);
   } catch (err) {
