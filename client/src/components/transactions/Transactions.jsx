@@ -26,6 +26,7 @@ const Transactions = ({ isIncome, est_id }) => {
 
   useEffect(() => {
     getCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isIncome]);
 
   const filterOptions = (array) => {
@@ -63,6 +64,7 @@ const Transactions = ({ isIncome, est_id }) => {
   //Delete specific record
   const handleDelete = async (id) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const deleteTransaction = await fetch(
         `http://localhost:5000/transactions/${id}`,
         {
@@ -80,13 +82,14 @@ const Transactions = ({ isIncome, est_id }) => {
   useEffect(() => {
     getTransactions();
     setFilter(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isIncome, est_id]);
 
   return (
     <>
       <div className="row ms-3 d-flex flex-row">
         <div className="col-5 m-4 ms-0 d-flex justify-content-center">
-          <TransactionModal />
+          <TransactionModal categories={filterOptions(categories)} />
         </div>
         <div className="col-6  d-flex justify-content-end">
           <div className="col d-flex align-items-center justify-content-end">
@@ -117,6 +120,7 @@ const Transactions = ({ isIncome, est_id }) => {
             <Table
               data={filter ? filteredData(transactions) : transactions}
               deleteTransaction={handleDelete}
+              options={filterOptions(categories)}
             />
           </div>
         </div>

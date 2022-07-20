@@ -5,27 +5,75 @@ import DropDownInput from '../inputs/DropDownInput';
 
 const TransactionModal = (props) => {
   const [show, setShow] = useState(false);
+  const [values, setValues] = useState([]);
   const [category, setCategory] = useState('');
 
-  const categories = [
-    { value: 'Salary', label: 'Salary' },
-    { value: 'Rentals', label: 'Rentals' },
-    { value: 'Interest', label: 'Interest' },
-  ];
+  //PROPS
+  const transaction = props.transaction;
+  const categories = props.categories;
+  const edit = props.edit;
 
   const handleClose = () => {
     setShow(false);
-    setCategory('');
   };
 
-  const handleShow = () => setShow(true);
-
-  const handleSubmit = () => {
-    setShow(false);
+  const handleShow = () => {
+    if (edit === true) {
+      setShow(true);
+      setValues(transaction);
+      setCategory(
+        categories.find((element) => element.value === transaction.tr_category)
+      );
+    } else {
+      setShow(true);
+      setValues([]);
+      setCategory('');
+    }
   };
+
+  //Editting existing todos
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    try {
+      const body = {};
+      const response = await fetch(
+        `http://localhost:5000/transactions/${transaction.tr_id}`,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        }
+      );
+      window.location = '/';
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  //Handle change
+  const changeHandler = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+    console.log(e.target.value);
+  };
+
+  //Generate date string
+  const generateDateString = (dateObject) => {
+    let date = new Date(dateObject);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let dateString =
+      year +
+      `${month > 9 ? '-' : '-0'}` +
+      month +
+      `${day > 9 ? '-' : '-0'}` +
+      day;
+    return dateString;
+  };
+
   return (
     <>
-      {props.edit ? (
+      {edit ? (
         <i className="bi bi-pencil-square text-dark" onClick={handleShow}></i>
       ) : (
         <Button variant="primary" onClick={handleShow}>
@@ -35,70 +83,76 @@ const TransactionModal = (props) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.edit ? 'Edit' : 'Add'} Transaction</Modal.Title>
+          <Modal.Title>{edit ? 'Edit' : 'Add'} Transaction</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form
-            onSubmit={handleSubmit}
+          {/* <form
+            onSubmit={handleEdit}
             className="w-750 mt-5 mb-5 mx-auto bg-light p-3 rounded-3"
-          >
-            <label htmlFor="description" className="grey-text">
-              Description
-            </label>
-            <input
-              type="text"
-              id="description"
-              name="description"
-              className="form-control"
-              placeholder="Enter description"
-              required
-            />
-            <br />
-            <label htmlFor="category" className="grey-text">
-              Category
-            </label>
-            <DropDownInput
-              options={categories}
-              placeholder="Select category"
-              name="category"
-              value={category}
-              defaultValue={''}
-              onChange={setCategory}
-              required
-            />
-            <br />
-            <label htmlFor="date" className="grey-text">
-              Date
-            </label>
-            <input
-              type="date"
-              id="date"
-              className="form-control"
-              placeholder="Select date"
-              required
-            />
-            <br />
-            <label htmlFor="amount" className="grey-text">
-              Enter amount
-            </label>
-            <input
-              type="number"
-              id="amount"
-              className="form-control"
-              placeholder="Enter amount"
-              required
-            />
-            <br />
+          > */}
+          <label htmlFor="description" className="grey-text">
+            Description
+          </label>
+          <input
+            type="text"
+            id="description"
+            name="tr_description"
+            className="form-control"
+            value={values.tr_description}
+            onChange={changeHandler}
+            placeholder="Enter description"
+            required
+          />
+          <br />
+          <label htmlFor="category" className="grey-text">
+            Category
+          </label>
+          <DropDownInput
+            options={categories}
+            placeholder="Select category"
+            name="tr_category"
+            value={category}
+            defaultValue={''}
+            onChange={setCategory}
+            required
+          />
+          <br />
+          <label htmlFor="date" className="grey-text">
+            Date
+          </label>
+          <input
+            type="date"
+            id="date"
+            className="form-control"
+            name="tr_date"
+            value={generateDateString(values.tr_date)}
+            onChange={changeHandler}
+            placeholder="Select date"
+            required
+          />
+          <br />
+          <label htmlFor="amount" className="grey-text">
+            Enter amount
+          </label>
+          <input
+            type="number"
+            id="amount"
+            name="tr_amount"
+            className="form-control"
+            onChange={changeHandler}
+            value={values.tr_amount}
+            placeholder="Enter amount"
+            required
+          />
+          <br />
 
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-              <Button type="submit" variant="primary" onClick={handleSubmit}>
-                Save Changes
-              </Button>
-            </Modal.Footer>
-          </form>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary">Save Changes</Button>
+          </Modal.Footer>
+          {/* </form> */}
         </Modal.Body>
       </Modal>
     </>

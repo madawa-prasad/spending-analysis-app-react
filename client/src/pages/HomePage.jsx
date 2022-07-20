@@ -10,7 +10,7 @@ import { monthOptions, yearOptions } from '../data/dropDownOptions';
 
 const HomePage = () => {
   let d = new Date();
-  let y = d.getFullYear();
+  // let y = d.getFullYear();
   let m = d.getMonth() + 1;
   let monthName = monthOptions[m - 1];
 
@@ -46,8 +46,9 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    getBudget();
+    // getBudget();
     getAllTransactions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isIncome, month, year]);
 
   useEffect(() => {
@@ -55,6 +56,7 @@ const HomePage = () => {
     return () => {
       setBudget([]);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [month, year]);
 
   //Getting SUM incomes//
