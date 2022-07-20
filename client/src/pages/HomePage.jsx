@@ -10,10 +10,16 @@ import { monthOptions } from '../data/monthOptions';
 
 const HomePage = () => {
   let d = new Date();
-  let m = monthOptions[d.getMonth()];
+  let y = d.getFullYear();
+  let m = d.getMonth() + 1;
+  let monthName = monthOptions[m - 1];
 
-  const [month, setMonth] = useState(m);
-  const [trType, setTrType] = useState(true);
+  let _id = y + '' + m;
+  console.log(monthName.label);
+  console.log(_id);
+
+  const [month, setMonth] = useState(monthName);
+  const [isIncome, setIsIncome] = useState(true);
   const [budget, setBudget] = useState([]);
   const [allTransactions, setAllTransactions] = useState([]);
 
@@ -46,7 +52,7 @@ const HomePage = () => {
   useEffect(() => {
     getBudget();
     getAllTransactions();
-  }, [trType]);
+  }, [isIncome]);
 
   //Getting SUM incomes//
   //Filtering incomes and expenses
@@ -157,7 +163,7 @@ const HomePage = () => {
                       role="tab"
                       aria-controls="home"
                       aria-selected="true"
-                      onClick={() => setTrType(true)}
+                      onClick={() => setIsIncome(true)}
                     >
                       INCOMES
                     </button>
@@ -172,7 +178,7 @@ const HomePage = () => {
                       role="tab"
                       aria-controls="profile"
                       aria-selected="false"
-                      onClick={() => setTrType(false)}
+                      onClick={() => setIsIncome(false)}
                     >
                       EXPENSES
                     </button>
@@ -180,7 +186,7 @@ const HomePage = () => {
                 </ul>
               </div>
               <div className="row bg-light d-flex mt-2 mb-2 ms-2 me-2 rounded-3">
-                <Transactions trType={trType} />
+                <Transactions isIncome={isIncome} />
               </div>
             </div>
           </div>
