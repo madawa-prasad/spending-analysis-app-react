@@ -121,7 +121,7 @@ app.put('/incomes/:id', async (req, res) => {
 app.get('/incomes', async (req, res) => {
   try {
     const allIncomes = await pool.query(
-      'SELECT * FROM transactions WHERE tr_is_income = TRUE'
+      'SELECT * FROM transactions CROSS JOIN categories WHERE tr_is_income = TRUE'
     );
     res.json(allIncomes.rows);
   } catch (err) {
