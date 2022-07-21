@@ -99,7 +99,7 @@ app.get('/incomes/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const allIncomes = await pool.query(
-      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE est_id = $1 AND tr_is_income = TRUE',
+      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE est_id = $1 AND tr_is_income = TRUE  ORDER BY tr_date ASC',
       [id]
     );
     res.json(allIncomes.rows);
@@ -136,7 +136,7 @@ app.get('/expenses/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const allExpenses = await pool.query(
-      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE tr_is_income = FALSE AND est_id = $1',
+      'SELECT * FROM transactions INNER JOIN categories ON transactions.tr_category = categories.cat_id WHERE tr_is_income = FALSE AND est_id = $1 ORDER BY tr_date ASC',
       [id]
     );
     res.json(allExpenses.rows);
