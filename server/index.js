@@ -79,14 +79,7 @@ app.post('/incomes', async (req, res) => {
     const tr_is_income = true;
     const newIncome = await pool.query(
       'INSERT INTO transactions (est_id, tr_is_income, tr_description, tr_category, tr_amount, tr_date) VALUES($1,$2,$3,$4,$5,$6) RETURNING *',
-      [
-        calcEstId(inc_date)[0],
-        tr_is_income,
-        inc_description,
-        inc_category,
-        inc_amount,
-        inc_date,
-      ]
+      [20227, tr_is_income, inc_description, inc_category, inc_amount, inc_date]
     );
     res.json(newIncome.rows[0]);
     console.log(calcEstId(inc_date)[0]);
