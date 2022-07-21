@@ -36,19 +36,21 @@ const TransactionModal = (props) => {
   //Handle change
   const changeHandler = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
 
   //Editting existing todos
-  const handleEdit = async (e) => {
-    e.preventDefault();
+  const handleEdit = async (values, category) => {
+    // console.log(values);
+    // e.preventDefault();
     try {
       const body = {
-        tr_description: 'Test expense modified twise',
-        tr_category: 9,
-        tr_amount: 100,
-        tr_date: '2022-07-12 12:40:57.185059',
+        tr_description: values.tr_description,
+        tr_category: category.value,
+        tr_amount: values.tr_amount,
+        tr_date: values.tr_date,
       };
+      console.log(body);
       const response = await fetch(
         `http://localhost:5000/transactions/${transaction.tr_id}`,
         {
@@ -162,7 +164,10 @@ const TransactionModal = (props) => {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={(e) => handleEdit(e)}>
+            <Button
+              variant="primary"
+              onClick={() => handleEdit(values, category)}
+            >
               Save Changes
             </Button>
           </Modal.Footer>
