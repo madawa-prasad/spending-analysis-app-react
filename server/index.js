@@ -66,19 +66,12 @@ app.get('/budget/:id', async (req, res) => {
 //Create Income*
 app.post('/incomes', async (req, res) => {
   try {
-    const { inc_description, inc_category, inc_amount, inc_date } = req.body;
+    const { tr_description, tr_category, tr_amount, tr_date } = req.body;
     const tr_is_income = true;
-    const est_id = calcEstId(inc_date);
+    const est_id = calcEstId(tr_date);
     const newIncome = await pool.query(
       'INSERT INTO transactions (est_id, tr_is_income, tr_description, tr_category, tr_amount, tr_date) VALUES($1,$2,$3,$4,$5,$6) RETURNING *',
-      [
-        est_id[0],
-        tr_is_income,
-        inc_description,
-        inc_category,
-        inc_amount,
-        inc_date,
-      ]
+      [est_id[0], tr_is_income, tr_description, tr_category, tr_amount, tr_date]
     );
     res.json(newIncome.rows[0]);
     console.log(calcEstId(inc_date)[0]);
@@ -105,17 +98,17 @@ app.get('/incomes/:id', async (req, res) => {
 //Create Expense*
 app.post('/expenses', async (req, res) => {
   try {
-    const { exp_description, exp_category, exp_amount, exp_date } = req.body;
+    const { tr_description, tr_category, tr_amount, tr_date } = req.body;
     const tr_is_income = false;
     const newExpense = await pool.query(
       'INSERT INTO transactions (est_id, tr_is_income, tr_description, tr_category, tr_amount, tr_date) VALUES($1,$2,$3,$4,$5,$6) RETURNING *',
       [
-        calcEstId(exp_date)[0],
+        calcEstId(tr_date)[0],
         tr_is_income,
-        exp_description,
-        exp_category,
-        exp_amount,
-        exp_date,
+        tr_description,
+        tr_category,
+        tr_amount,
+        tr_date,
       ]
     );
     res.json(newExpense.rows[0]);
