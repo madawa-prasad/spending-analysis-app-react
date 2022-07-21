@@ -110,7 +110,10 @@ const HomePage = () => {
               <div className="d-flex flex-row justify-content-between">
                 <span className="title text-white fw-bold">Planned budget</span>
                 {/* <i className="bi bi-pencil-square text-white"></i> */}
-                <SetBudget budget={budget} />
+                <SetBudget
+                  budget={budget}
+                  isEdit={budget.length !== 0 && true}
+                />
               </div>
               <div className="d-flex flex-row justify-content-around mb-3">
                 <div className="d-flex flex-column text-center">

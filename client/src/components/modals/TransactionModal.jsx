@@ -90,9 +90,9 @@ const TransactionModal = (props) => {
     try {
       const body = {
         tr_description: values.tr_description,
-        tr_category: parseInt(category.value),
+        tr_category: category.value,
         tr_amount: values.tr_amount,
-        tr_date: toString(values.tr_date),
+        tr_date: values.tr_date,
       };
       // console.log(body);
       const response = await fetch(

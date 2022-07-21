@@ -6,7 +6,7 @@ const SetBudget = (props) => {
   const [show, setShow] = useState(false);
   const [budget, setBudget] = useState([]);
 
-  let isEdit;
+  let isEdit = props.isEdit;
 
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -18,14 +18,12 @@ const SetBudget = (props) => {
     setBudget(budget);
   }, [budget]);
 
-  isEdit = budget.length === 0 ? false : true;
-
   //Handle change
   const changeHandler = (e) => {
     setBudget({ ...budget, [e.target.name]: e.target.value });
   };
 
-  //Editting existing todos
+  //Editting existing budget
   const handleEdit = async () => {
     try {
       const body = {
@@ -49,7 +47,7 @@ const SetBudget = (props) => {
     }
   };
 
-  //Editting existing todos
+  //Setting New budget
   const handleNewBudget = async () => {
     try {
       const body = {
@@ -73,7 +71,6 @@ const SetBudget = (props) => {
   console.log('budget:', budget);
   console.log('isEdit:', isEdit);
   console.log(budget.est_income, budget.est_expenditure);
-  console.log(Date());
   return (
     <>
       <i className="bi bi-pencil-square text-white" onClick={handleShow}></i>
@@ -117,12 +114,16 @@ const SetBudget = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button
-            variant="primary"
-            onClick={isEdit ? () => handleEdit() : () => handleNewBudget()}
-          >
-            {isEdit ? 'Save Changes' : 'Set Budget'}
-          </Button>
+          {!isEdit && (
+            <Button variant="primary" onClick={handleNewBudget}>
+              Set Budget
+            </Button>
+          )}
+          {isEdit && (
+            <Button variant="primary" onClick={handleEdit}>
+              Save Changes
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </>
