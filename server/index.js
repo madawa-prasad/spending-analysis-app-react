@@ -89,6 +89,7 @@ app.post('/incomes', async (req, res) => {
       ]
     );
     res.json(newIncome.rows[0]);
+    console.log(calcEstId(inc_date)[0]);
   } catch (err) {
     console.error(err.message);
   }
