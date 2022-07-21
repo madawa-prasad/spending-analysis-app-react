@@ -6,21 +6,27 @@ import DropDownInput from '../components/inputs/DropDownInput';
 import SetBudget from '../components/modals/SetBudget';
 import Navbar from '../components/navbar/Navbar';
 import Transactions from '../components/transactions/Transactions';
-import { monthOptions } from '../data/monthOptions';
+import { monthOptions, yearOptions } from '../data/dropDownOptions';
 
 const HomePage = () => {
   let d = new Date();
-  let m = monthOptions[d.getMonth()];
+  // let y = d.getFullYear();
+  let m = d.getMonth() + 1;
+  let monthName = monthOptions[m - 1];
 
-  const [month, setMonth] = useState(m);
-  const [trType, setTrType] = useState(true);
+  const [month, setMonth] = useState(monthName);
+  const [year, setYear] = useState(yearOptions[0]);
+  const [isIncome, setIsIncome] = useState(true);
   const [budget, setBudget] = useState([]);
   const [allTransactions, setAllTransactions] = useState([]);
+
+  let _id = year.value + '' + month.value;
+  console.log(_id);
 
   //Fetching budget data
   const getBudget = async () => {
     try {
-      const response = await fetch('http://localhost:5000/budget/20227');
+      const response = await fetch(`http://localhost:5000/budget/${_id}`);
       const jsonData = await response.json();
       setBudget(jsonData);
     } catch (err) {
@@ -28,14 +34,10 @@ const HomePage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   getBudget();
-  // }, [trType]);
-
   //Fetch all transactions
   const getAllTransactions = async () => {
     try {
-      const response = await fetch('http://localhost:5000/transactions');
+      const response = await fetch(`http://localhost:5000/transactions/${_id}`);
       const jsonData = await response.json();
       setAllTransactions(jsonData);
     } catch (err) {
@@ -44,9 +46,18 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    getBudget();
+    // getBudget();
     getAllTransactions();
-  }, [trType]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isIncome, month, year]);
+
+  useEffect(() => {
+    getBudget();
+    return () => {
+      setBudget([]);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [month, year]);
 
   //Getting SUM incomes//
   //Filtering incomes and expenses
@@ -67,9 +78,9 @@ const HomePage = () => {
     return sum;
   };
 
-  useEffect(() => {
-    console.log('month :>> ', month);
-  }, [month]);
+  // useEffect(() => {
+  //   console.log(month);
+  // }, [month]);
 
   return (
     <>
@@ -77,22 +88,20 @@ const HomePage = () => {
         <Navbar />
         <section className="container top mb-4 bg-light">
           <div className="row d-flex flex-row justify-content-end mb-3 pe-3">
-            {/* <DropDownInput
-              options={monthOptions}
+            <DropDownInput
+              options={yearOptions}
               className="col-2 me-4 mt-2"
               placeholder="Select Year"
-              name="month"
-              value={month}
-              defaultValue={m}
-              onChange={setMonth}
-            /> */}
+              name="year"
+              value={year}
+              onChange={setYear}
+            />
             <DropDownInput
               options={monthOptions}
               className="col-2 me-4 mt-2"
               placeholder="Select Month"
               name="month"
               value={month}
-              defaultValue={m}
               onChange={setMonth}
             />
           </div>
@@ -101,7 +110,10 @@ const HomePage = () => {
               <div className="d-flex flex-row justify-content-between">
                 <span className="title text-white fw-bold">Planned budget</span>
                 {/* <i className="bi bi-pencil-square text-white"></i> */}
-                <SetBudget />
+                <SetBudget
+                  budget={budget}
+                  isEdit={budget.length !== 0 && true}
+                />
               </div>
               <div className="d-flex flex-row justify-content-around mb-3">
                 <div className="d-flex flex-column text-center">
@@ -157,7 +169,7 @@ const HomePage = () => {
                       role="tab"
                       aria-controls="home"
                       aria-selected="true"
-                      onClick={() => setTrType(true)}
+                      onClick={() => setIsIncome(true)}
                     >
                       INCOMES
                     </button>
@@ -172,7 +184,7 @@ const HomePage = () => {
                       role="tab"
                       aria-controls="profile"
                       aria-selected="false"
-                      onClick={() => setTrType(false)}
+                      onClick={() => setIsIncome(false)}
                     >
                       EXPENSES
                     </button>
@@ -180,7 +192,7 @@ const HomePage = () => {
                 </ul>
               </div>
               <div className="row bg-light d-flex mt-2 mb-2 ms-2 me-2 rounded-3">
-                <Transactions trType={trType} />
+                <Transactions isIncome={isIncome} est_id={_id} />
               </div>
             </div>
           </div>

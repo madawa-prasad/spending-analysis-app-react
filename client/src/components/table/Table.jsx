@@ -3,7 +3,7 @@ import TransactionModal from '../modals/TransactionModal';
 
 import './table.css';
 
-const Table = ({ data, deleteTransaction }) => {
+const Table = ({ data, deleteTransaction, options, isIncome }) => {
   //Recording month and date in table
   const getMonthDate = (d) => {
     var date = new Date(d);
@@ -22,7 +22,7 @@ const Table = ({ data, deleteTransaction }) => {
                 <th scope="col" className="">
                   Description
                 </th>
-                <th scope="col" className="text-center">
+                <th scope="col" className="text-stat">
                   Category
                 </th>
                 <th scope="col" className="text-center">
@@ -43,13 +43,18 @@ const Table = ({ data, deleteTransaction }) => {
               {data.map((transaction, index) => (
                 <tr key={index}>
                   <td className="">{transaction.tr_description}</td>
-                  <td className="text-center">{transaction.tr_category}</td>
-                  <td className="text-center">
+                  <td className="text-start">{transaction.cat_title}</td>
+                  <td className="text-start">
                     {getMonthDate(transaction.tr_date)}
                   </td>
-                  <td className="text-center">{transaction.tr_amount}</td>
+                  <td className="text-end">{transaction.tr_amount}</td>
                   <td className="text-center">
-                    <TransactionModal edit={true} />
+                    <TransactionModal
+                      isEdit={true}
+                      transaction={transaction}
+                      categories={options}
+                      isIncome={isIncome}
+                    />
                   </td>
                   <td className="text-center">
                     <i
