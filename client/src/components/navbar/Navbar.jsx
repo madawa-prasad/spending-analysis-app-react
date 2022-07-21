@@ -13,7 +13,7 @@ const Navbar = () => {
             height="30"
             className="d-inline-block align-text-top"
           />
-          <Link to="/home" className="text-decoration-none">
+          <Link to="/" className="text-decoration-none">
             <span className="ms-3 font-weight-bold">Spending Analysis App</span>
           </Link>
         </span>

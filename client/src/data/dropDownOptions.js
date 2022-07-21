@@ -19,16 +19,10 @@ export const yearOptions = [
   { value: '2024', label: '2024' },
 ];
 
-export const categories = [
-  { cat_id: 1, cat_is_income: true, cat_title: 'A' },
-  { cat_id: 2, cat_is_income: true, cat_title: 'B' },
-  { cat_id: 3, cat_is_income: true, cat_title: 'C' },
-];
-
-export const selectionDropDownPutValues = (value) => {
-  let options = value?.map((value) => ({
-    value: value.catId,
-    label: value.catTitle,
-  }));
-  return options;
-};
+// export const selectionDropDownPutValues = (array) => {
+//   let options = array?.map((value) => ({
+//     value: value.catId,
+//     label: value.catTitle,
+//   }));
+//   return options;
+// };

@@ -10,7 +10,7 @@ import { monthOptions, yearOptions } from '../data/dropDownOptions';
 
 const HomePage = () => {
   let d = new Date();
-  let y = d.getFullYear();
+  // let y = d.getFullYear();
   let m = d.getMonth() + 1;
   let monthName = monthOptions[m - 1];
 
@@ -37,7 +37,7 @@ const HomePage = () => {
   //Fetch all transactions
   const getAllTransactions = async () => {
     try {
-      const response = await fetch('http://localhost:5000/transactions');
+      const response = await fetch(`http://localhost:5000/transactions/${_id}`);
       const jsonData = await response.json();
       setAllTransactions(jsonData);
     } catch (err) {
@@ -46,12 +46,18 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    getBudget();
+    // getBudget();
     getAllTransactions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isIncome, month, year]);
+
+  useEffect(() => {
+    getBudget();
     return () => {
       setBudget([]);
     };
-  }, [isIncome, month, year]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [month, year]);
 
   //Getting SUM incomes//
   //Filtering incomes and expenses
@@ -72,9 +78,10 @@ const HomePage = () => {
     return sum;
   };
 
-  useEffect(() => {
-    console.log('month :>> ', month);
-  }, [month]);
+  // useEffect(() => {
+  //   console.log(month);
+  // }, [month]);
+
   return (
     <>
       <div className="bg-light">
@@ -103,7 +110,10 @@ const HomePage = () => {
               <div className="d-flex flex-row justify-content-between">
                 <span className="title text-white fw-bold">Planned budget</span>
                 {/* <i className="bi bi-pencil-square text-white"></i> */}
-                <SetBudget />
+                <SetBudget
+                  budget={budget}
+                  isEdit={budget.length !== 0 && true}
+                />
               </div>
               <div className="d-flex flex-row justify-content-around mb-3">
                 <div className="d-flex flex-column text-center">
@@ -182,7 +192,7 @@ const HomePage = () => {
                 </ul>
               </div>
               <div className="row bg-light d-flex mt-2 mb-2 ms-2 me-2 rounded-3">
-                <Transactions isIncome={isIncome} />
+                <Transactions isIncome={isIncome} est_id={_id} />
               </div>
             </div>
           </div>
