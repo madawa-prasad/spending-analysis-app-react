@@ -18,9 +18,10 @@ const Summary = () => {
   const [year, setYear] = useState(yearOptions[0]);
   const [budget, setBudget] = useState([]);
   const [allTransactions, setAllTransactions] = useState([]);
+  const [sums, setSums] = useState([]);
 
   let _id = year.value + '' + month.value;
-  console.log(_id);
+  // console.log(_id);
 
   //Fetching budget data
   const getBudget = async () => {
@@ -33,13 +34,27 @@ const Summary = () => {
     }
   };
 
+  //Fetching sums data
+  const getSums = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/sumsD/${_id}`);
+      const jsonData = await response.json();
+      setSums(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   useEffect(() => {
     getBudget();
+    getSums();
     return () => {
       setBudget([]);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [month, year]);
+
+  console.log('sums:>>', sums);
 
   //Fetch all transactions
   const getAllTransactions = async () => {
@@ -76,8 +91,8 @@ const Summary = () => {
     return sum;
   };
 
-  console.log(transactionsSum(incomesArr));
-  console.log(budget);
+  // console.log(transactionsSum(incomesArr));
+  // console.log(budget);
   return (
     <>
       <div className="bg-light">
@@ -86,7 +101,7 @@ const Summary = () => {
           <div className="row d-flex justify-content-between mb-3 pe-3">
             <h5 className="col mt-2">Budget Summary</h5>
             <i
-              class="bi bi-arrow-clockwise label col-1 ms-2 btn text-decoration-underline text-center"
+              className="bi bi-arrow-clockwise label col-1 ms-2 btn text-decoration-underline text-center"
               onClick={() => window.location.reload()}
             ></i>
             {/* <span
@@ -129,10 +144,7 @@ const Summary = () => {
                     <p className="text-dark">
                       {month.label} Incomes & Expences
                     </p>
-                    <LineChartD
-                      className="col-12 d-flex "
-                      data={allTransactions}
-                    />
+                    <LineChartD className="col-12 d-flex " data={sums} />
                   </div>
                 </div>
                 <div className="d-flex flex-row w-100 mt-3 p-0">
