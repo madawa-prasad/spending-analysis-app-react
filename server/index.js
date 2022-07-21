@@ -22,19 +22,10 @@ app.post('/budget', async (req, res) => {
   try {
     const { est_income, est_expenditure } = req.body;
     const date = new Date();
-    const functionalData = calcEstId(date);
-    // const month = date.getMonth() + 1;
-    // const est_id = year + '' + month;
+    const dateData = calcEstId(date);
     const newBudget = await pool.query(
       'INSERT INTO estimated_budget (est_id,est_income, est_expenditure,est_year,est_month, created_on) VALUES($1,$2,$3,$4,$5,$6) RETURNING *',
-      [
-        functionalData[0],
-        est_income,
-        est_expenditure,
-        functionalData[1],
-        functionalData[2],
-        date,
-      ]
+      [dateData[0], est_income, est_expenditure, dateData[1], dateData[2], date]
     );
     res.json(newBudget.rows[0]);
   } catch (err) {
@@ -77,9 +68,17 @@ app.post('/incomes', async (req, res) => {
   try {
     const { inc_description, inc_category, inc_amount, inc_date } = req.body;
     const tr_is_income = true;
+    const est_id = calcEstId(inc_date)[0];
     const newIncome = await pool.query(
       'INSERT INTO transactions (est_id, tr_is_income, tr_description, tr_category, tr_amount, tr_date) VALUES($1,$2,$3,$4,$5,$6) RETURNING *',
-      [20227, tr_is_income, inc_description, inc_category, inc_amount, inc_date]
+      [
+        est_id,
+        tr_is_income,
+        inc_description,
+        inc_category,
+        inc_amount,
+        inc_date,
+      ]
     );
     res.json(newIncome.rows[0]);
     console.log(calcEstId(inc_date)[0]);
