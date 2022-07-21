@@ -89,7 +89,10 @@ const Transactions = ({ isIncome, est_id }) => {
     <>
       <div className="row ms-3 d-flex flex-row">
         <div className="col-5 m-4 ms-0 d-flex justify-content-center">
-          <TransactionModal categories={filterOptions(categories)} />
+          <TransactionModal
+            categories={filterOptions(categories)}
+            isIncome={isIncome}
+          />
         </div>
         <div className="col-6  d-flex justify-content-end">
           <div className="col d-flex align-items-center justify-content-end">
@@ -121,6 +124,7 @@ const Transactions = ({ isIncome, est_id }) => {
               data={filter ? filteredData(transactions) : transactions}
               deleteTransaction={handleDelete}
               options={filterOptions(categories)}
+              isIncome={isIncome}
             />
           </div>
         </div>

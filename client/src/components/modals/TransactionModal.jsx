@@ -11,16 +11,17 @@ const TransactionModal = (props) => {
   //PROPS
   const transaction = props.transaction;
   const categories = props.categories;
-  const edit = props.edit;
+  const isEdit = props.isEdit;
+  const isIncome = props.isIncome;
 
-  console.log(values.tr_id);
+  console.log(props.isIncome);
 
   const handleClose = () => {
     setShow(false);
   };
 
   const handleShow = () => {
-    if (edit === true) {
+    if (isEdit === true) {
       setShow(true);
       setValues(transaction);
       setCategory(
@@ -31,6 +32,21 @@ const TransactionModal = (props) => {
       setValues([]);
       setCategory('');
     }
+  };
+
+  //Generate date string
+  const generateDateString = (dateObject) => {
+    let date = new Date(dateObject);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let dateString =
+      year +
+      `${month > 9 ? '-' : '-0'}` +
+      month +
+      `${day > 9 ? '-' : '-0'}` +
+      day;
+    return dateString;
   };
 
   //Handle change
@@ -68,36 +84,49 @@ const TransactionModal = (props) => {
   };
 
   //Handle Submit
-  const handleSubmit = () => {};
-
-  //Generate date string
-  const generateDateString = (dateObject) => {
-    let date = new Date(dateObject);
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let dateString =
-      year +
-      `${month > 9 ? '-' : '-0'}` +
-      month +
-      `${day > 9 ? '-' : '-0'}` +
-      day;
-    return dateString;
+  const handleNewTransaction = async (values, category) => {
+    // console.log(values);
+    // e.preventDefault();
+    try {
+      const body = {
+        tr_description: values.tr_description,
+        tr_category: category.value,
+        tr_amount: values.tr_amount,
+        tr_date: values.tr_date,
+      };
+      // console.log(body);
+      const response = await fetch(
+        `http://localhost:5000/${isIncome ? 'incomes' : 'expenses'}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        }
+      );
+      setShow(false);
+      window.location = '/';
+      console.log(response);
+    } catch (err) {
+      console.error(err.message);
+      setShow(false);
+    }
   };
 
   return (
     <>
-      {edit ? (
+      {isEdit ? (
         <i className="bi bi-pencil-square text-dark" onClick={handleShow}></i>
       ) : (
         <Button variant="primary" onClick={handleShow}>
-          Add Transaction
+          Add {isIncome ? 'Income' : 'Expense'}
         </Button>
       )}
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{edit ? 'Edit' : 'Add'} Transaction</Modal.Title>
+          <Modal.Title>
+            {isEdit ? 'Edit' : 'Add'} {isIncome ? 'Income' : 'Expense'}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {/* <form
@@ -166,7 +195,11 @@ const TransactionModal = (props) => {
             </Button>
             <Button
               variant="primary"
-              onClick={() => handleEdit(values, category)}
+              onClick={() => {
+                isEdit
+                  ? handleEdit(values, category)
+                  : handleNewTransaction(values, category);
+              }}
             >
               Save Changes
             </Button>

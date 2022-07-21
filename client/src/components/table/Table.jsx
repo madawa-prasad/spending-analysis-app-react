@@ -3,7 +3,7 @@ import TransactionModal from '../modals/TransactionModal';
 
 import './table.css';
 
-const Table = ({ data, deleteTransaction, options }) => {
+const Table = ({ data, deleteTransaction, options, isIncome }) => {
   //Recording month and date in table
   const getMonthDate = (d) => {
     var date = new Date(d);
@@ -50,9 +50,10 @@ const Table = ({ data, deleteTransaction, options }) => {
                   <td className="text-end">{transaction.tr_amount}</td>
                   <td className="text-center">
                     <TransactionModal
-                      edit={true}
+                      isEdit={true}
                       transaction={transaction}
                       categories={options}
+                      isIncome={isIncome}
                     />
                   </td>
                   <td className="text-center">
