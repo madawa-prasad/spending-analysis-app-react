@@ -80,61 +80,75 @@ const Summary = () => {
   console.log(budget);
   return (
     <>
-      <Navbar />
-      <div className="container top mb-4 bg-light">
-        <div className="row d-flex flex-row justify-content-between mb-3 pe-3">
-          <h5 className="col mt-2">Budget Summary</h5>
-          <DropDownInput
-            options={yearOptions}
-            className="col-2 me-4 mt-2"
-            placeholder="Select Year"
-            name="year"
-            value={year}
-            onChange={setYear}
-          />
-          <DropDownInput
-            options={monthOptions}
-            className="col-2 me-4 mt-2"
-            placeholder="Select Month"
-            name="month"
-            value={month}
-            defaultValue={m}
-            onChange={setMonth}
-          />
-        </div>
-        <div className="row">
-          <IncomeCard
-            income={budget.est_income}
-            sumIncomes={transactionsSum(incomesArr)}
-          />
-          <ExpensesCard
-            expenditure={budget.est_expenditure}
-            sumExpenses={transactionsSum(expensesArr)}
-          />
-          <div className="container body mt-3 mb-4 bg-light">
-            <div className="row">
-              <div className="col bg-dark p-3 mb-2 ms-3 me-5 rounded-3 ">
-                <div className="d-flex row bg-light ms-2 me-2 mt-2 mb-4 rounded-3 p-2">
-                  <p className="text-dark">{month.label} Incomes & Expences</p>
-                  <LineChartD
-                    className="col-12 d-flex "
-                    data={allTransactions}
-                  />
+      <div className="bg-light">
+        <Navbar />
+        <div className="container top mb-4 bg-light">
+          <div className="row d-flex justify-content-between mb-3 pe-3">
+            <h5 className="col mt-2">Budget Summary</h5>
+            <i
+              class="bi bi-arrow-clockwise label col-1 ms-2 btn text-decoration-underline text-center"
+              onClick={() => window.location.reload()}
+            ></i>
+            {/* <span
+            className="label col-1 ms-2 btn text-decoration-underline text-center"
+            onClick={() => window.location.reload()}
+          >
+            Reload
+          </span> */}
+            <DropDownInput
+              options={yearOptions}
+              className="col-2 me-4 mt-2"
+              placeholder="Select Year"
+              name="year"
+              value={year}
+              onChange={setYear}
+            />
+            <DropDownInput
+              options={monthOptions}
+              className="col-2 me-4 mt-2"
+              placeholder="Select Month"
+              name="month"
+              value={month}
+              defaultValue={m}
+              onChange={setMonth}
+            />
+          </div>
+          <div className="row">
+            <IncomeCard
+              income={budget.est_income}
+              sumIncomes={transactionsSum(incomesArr)}
+            />
+            <ExpensesCard
+              expenditure={budget.est_expenditure}
+              sumExpenses={transactionsSum(expensesArr)}
+            />
+            <div className="container body mt-3 mb-4 bg-light">
+              <div className="row">
+                <div className="col bg-dark p-3 mb-2 ms-3 me-5 rounded-3 ">
+                  <div className="d-flex row bg-light ms-2 me-2 mt-2 mb-4 rounded-3 p-2">
+                    <p className="text-dark">
+                      {month.label} Incomes & Expences
+                    </p>
+                    <LineChartD
+                      className="col-12 d-flex "
+                      data={allTransactions}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="d-flex flex-row w-100 mt-3 p-0">
-                <div className="col bg-dark p-3 mb-2 ms-3 me-4 rounded-3 ">
-                  <PieChartD title={`${month.label} Incomes`} />
-                </div>
-                <div className="col bg-dark p-3 mb-2 ms-1 me-5 rounded-3 ">
-                  <PieChartD title={`${month.label} Expenses`} />
+                <div className="d-flex flex-row w-100 mt-3 p-0">
+                  <div className="col bg-dark p-3 mb-2 ms-3 me-4 rounded-3 ">
+                    <PieChartD title={`${month.label} Incomes`} />
+                  </div>
+                  <div className="col bg-dark p-3 mb-2 ms-1 me-5 rounded-3 ">
+                    <PieChartD title={`${month.label} Expenses`} />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 };

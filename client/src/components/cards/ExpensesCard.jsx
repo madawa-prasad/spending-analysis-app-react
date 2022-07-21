@@ -2,7 +2,7 @@ import React from 'react';
 import ProgressBarD from '../progressbar/ProgressBarD';
 
 const ExpensesCard = ({ expenditure, sumExpenses }) => {
-  const percentage = (sumExpenses / expenditure) * 100;
+  const percentage = ((sumExpenses / expenditure) * 100).toFixed(2);
   const difference = expenditure - sumExpenses;
 
   return (
@@ -18,15 +18,15 @@ const ExpensesCard = ({ expenditure, sumExpenses }) => {
               <div className="col-10">
                 <ProgressBarD
                   variant={sumExpenses < expenditure ? 'warning' : 'danger'}
-                  now={percentage ? percentage : 0}
+                  now={isNaN(percentage) ? 0 : percentage}
                 />
               </div>
-              <span className="est-expenditure text-white ms-2 fs-4 col-2">
+              <span className="est-expenditure text-white ms-2 fs-5 col-2">
                 {expenditure ? expenditure : 0} $
               </span>
             </div>
             <span
-              className={`col-3 me-0 fs-2 text-${
+              className={`col-4 me-0 fs-2 text-${
                 difference > 0 ? 'warning' : 'danger'
               }`}
             >

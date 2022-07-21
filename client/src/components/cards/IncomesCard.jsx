@@ -3,9 +3,10 @@ import React from 'react';
 import ProgressBarD from '../progressbar/ProgressBarD';
 
 const IncomeCard = ({ income, sumIncomes }) => {
-  const percentage = (sumIncomes / income) * 100;
+  const percentage = ((sumIncomes / income) * 100).toFixed(2);
   const difference = sumIncomes - income;
 
+  console.log(percentage);
   return (
     <>
       <div className="col bg-dark mt-2 mb-2 ms-3 me-5 rounded-3 actual">
@@ -19,15 +20,15 @@ const IncomeCard = ({ income, sumIncomes }) => {
               <div className="col-10">
                 <ProgressBarD
                   variant={sumIncomes < income ? 'danger' : 'success'}
-                  now={percentage ? percentage : 0}
+                  now={isNaN(percentage) ? 0 : percentage}
                 />
               </div>
-              <span className="est-income text-white ms-2 fs-4 col-2">
+              <span className="est-income text-white ms-2 fs-5 col-2">
                 {income ? income : 0} $
               </span>
             </div>
             <span
-              className={`col-3 me-0 fs-2 text-${
+              className={`col-4 me-0 fs-2 text-${
                 difference > 0 ? 'success' : 'danger'
               }`}
             >
