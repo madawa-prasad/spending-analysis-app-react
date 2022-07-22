@@ -145,13 +145,17 @@ const Summary = () => {
     <>
       <div className="bg-light">
         <Navbar />
+        <Link
+          to="/"
+          className="row d-inline-flex align-items-center text-decoration-none"
+        >
+          <i className="bi bi-arrow-left-circle col-1 ms-5 text-dark"></i>
+          <span className="col m-0">Back to home</span>
+        </Link>
         <div className="container top mb-4 bg-light">
           <div className="row d-flex justify-content-between mb-3 pe-3">
             <div className="d-flex col mt-2">
               <div className="d-flex align-items-center">
-                <Link to="/">
-                  <i className="bi bi-arrow-left-circle col text-dark"></i>
-                </Link>
                 <h5 className="row ms-2">Budget Summary</h5>
               </div>
             </div>
@@ -192,9 +196,9 @@ const Summary = () => {
               expenditure={budget.est_expenditure}
               sumExpenses={transactionsSum(expensesArr)}
             />
-            <div className="container body mt-3 mb-4 bg-light">
-              <div className="row">
-                <div className="col bg-dark p-3 mb-2 ms-3 me-5 rounded-3 ">
+            <div className="container body d-flex row mt-3 mb-4 bg-light">
+              <div className="d-flex row">
+                <div className="col bg-dark p-3 mb-2 ms-1 me-5 rounded-3 ">
                   <div className="d-flex row bg-light ms-2 me-2 mt-2 mb-4 rounded-3 p-2">
                     <p className="text-dark">
                       {month.label} Incomes & Expences
@@ -202,14 +206,14 @@ const Summary = () => {
                     <LineChartD className="col-12 d-flex " data={sums} />
                   </div>
                 </div>
-                <div className="d-flex flex-row w-100 mt-3 p-0">
+                <div className="d-flex row w-100 mt-3 p-0">
                   <div className="col bg-dark p-3 mb-2 ms-3 me-4 rounded-3 ">
                     <PieChartD
                       title={`${month.label} Incomes`}
                       data={pieChartData(incomeCategorySums)}
                     />
                   </div>
-                  <div className="col bg-dark p-3 mb-2 ms-1 me-5 rounded-3 ">
+                  <div className="col bg-dark p-3 mb-2 ms-4 me-4 rounded-3 ">
                     <PieChartD
                       title={`${month.label} Expenses`}
                       data={pieChartData(expenseCategorySums)}
