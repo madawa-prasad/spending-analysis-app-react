@@ -9,6 +9,7 @@ const Transactions = ({ isIncome, est_id }) => {
   const [transactions, setTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [filter, setFilter] = useState('');
+  const [categorySums, setCategorySums] = useState([]);
 
   //Fetching Categories
   const getCategories = async () => {
@@ -22,7 +23,7 @@ const Transactions = ({ isIncome, est_id }) => {
       console.error(err.message);
     }
   };
-  console.log(categories);
+  // console.log(categories);
 
   useEffect(() => {
     getCategories();
@@ -49,6 +50,12 @@ const Transactions = ({ isIncome, est_id }) => {
       console.error(err.message);
     }
   };
+
+  useEffect(() => {
+    getTransactions();
+    setFilter(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isIncome, est_id]);
 
   //Filtered data based on category
   const filteredData = (transactionsData) => {
@@ -79,11 +86,34 @@ const Transactions = ({ isIncome, est_id }) => {
     }
   };
 
+  //Fetch data for piecharts
+  const getPieChartData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/sumsC/${est_id}/${isIncome}`
+      );
+      const jsonData = await response.json();
+      setCategorySums(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  //Modify piechart data
+  const chartData = (array) => {
+    let categorySum = array?.map((item) => ({
+      name: item.cat_title,
+      value: parseFloat(item.cat_sum),
+    }));
+    return categorySum;
+  };
+
+  // console.log('categorySums:>>', chartData(categorySums));
+
   useEffect(() => {
-    getTransactions();
-    setFilter(null);
+    getPieChartData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isIncome, est_id]);
+  }, [est_id, isIncome]);
 
   return (
     <>
@@ -117,7 +147,7 @@ const Transactions = ({ isIncome, est_id }) => {
         </div>
         <div className="row">
           <div className="col-5 p-0">
-            <PieChartD />
+            <PieChartD data={chartData(categorySums)} />
           </div>
           <div className="col-7 p-0">
             <Table

@@ -19,14 +19,16 @@ const Summary = () => {
   const [budget, setBudget] = useState([]);
   const [allTransactions, setAllTransactions] = useState([]);
   const [sums, setSums] = useState([]);
+  const [incomeCategorySums, setIncomeCategorySums] = useState([]);
+  const [expenseCategorySums, setExpenseCategorySums] = useState([]);
 
-  let _id = year.value + '' + month.value;
-  // console.log(_id);
+  let est_id = year.value + '' + month.value;
+  // console.log(est_id);
 
   //Fetching budget data
   const getBudget = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/budget/${_id}`);
+      const response = await fetch(`http://localhost:5000/budget/${est_id}`);
       const jsonData = await response.json();
       setBudget(jsonData);
     } catch (err) {
@@ -37,7 +39,7 @@ const Summary = () => {
   //Fetching sums data
   const getSums = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/sumsD/${_id}`);
+      const response = await fetch(`http://localhost:5000/sumsD/${est_id}`);
       const jsonData = await response.json();
       setSums(jsonData);
     } catch (err) {
@@ -59,7 +61,9 @@ const Summary = () => {
   //Fetch all transactions
   const getAllTransactions = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/transactions/${_id}`);
+      const response = await fetch(
+        `http://localhost:5000/transactions/${est_id}`
+      );
       const jsonData = await response.json();
       setAllTransactions(jsonData);
     } catch (err) {
@@ -90,6 +94,49 @@ const Summary = () => {
     }, 0);
     return sum;
   };
+
+  //Fetch data for piecharts
+  //Incomes
+  const getIncomePieChartData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/sumsC/${est_id}/true`
+      );
+      const jsonData = await response.json();
+      setIncomeCategorySums(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  //Expenses
+  const getExpensePieChartData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/sumsC/${est_id}/false`
+      );
+      const jsonData = await response.json();
+      setExpenseCategorySums(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+  //Modify piechart data
+  const pieChartData = (array) => {
+    let categorySum = array?.map((item) => ({
+      name: item.cat_title,
+      value: parseFloat(item.cat_sum),
+    }));
+    return categorySum;
+  };
+
+  // console.log('categorySums:>>', chartData(categorySums));
+
+  useEffect(() => {
+    getIncomePieChartData();
+    getExpensePieChartData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [est_id]);
 
   // console.log(transactionsSum(incomesArr));
   // console.log(budget);
@@ -149,10 +196,16 @@ const Summary = () => {
                 </div>
                 <div className="d-flex flex-row w-100 mt-3 p-0">
                   <div className="col bg-dark p-3 mb-2 ms-3 me-4 rounded-3 ">
-                    <PieChartD title={`${month.label} Incomes`} />
+                    <PieChartD
+                      title={`${month.label} Incomes`}
+                      data={pieChartData(incomeCategorySums)}
+                    />
                   </div>
                   <div className="col bg-dark p-3 mb-2 ms-1 me-5 rounded-3 ">
-                    <PieChartD title={`${month.label} Expenses`} />
+                    <PieChartD
+                      title={`${month.label} Expenses`}
+                      data={pieChartData(expenseCategorySums)}
+                    />
                   </div>
                 </div>
               </div>

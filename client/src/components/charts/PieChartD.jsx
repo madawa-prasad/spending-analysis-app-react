@@ -1,13 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { PieChart, Pie, Sector } from 'recharts';
 
-const data = [
-  { name: 'Group A', value: 600 },
-  { name: 'Group B', value: 100 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 400 },
-];
-
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
   const {
@@ -66,7 +59,7 @@ const renderActiveShape = (props) => {
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         textAnchor={textAnchor}
-        fill="#333"
+        fill="black"
       >{`$ ${value}`}</text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
@@ -89,6 +82,10 @@ const PieChartD = (props) => {
     },
     [setActiveIndex]
   );
+
+  const data = props.data;
+  // console.log('dataPC:>>', data);
+
   return (
     <div className="container">
       <div className="pie-chart">
