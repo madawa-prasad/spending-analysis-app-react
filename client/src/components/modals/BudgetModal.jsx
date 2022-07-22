@@ -23,7 +23,7 @@ const BudgetModal = (props) => {
     setBudget({ ...budget, [e.target.name]: e.target.value });
   };
 
-  //Editting existing budget
+  //Editing existing budget
   const handleEdit = async () => {
     try {
       const body = {

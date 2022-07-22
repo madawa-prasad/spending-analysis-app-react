@@ -55,7 +55,7 @@ const TransactionModal = (props) => {
     // console.log(e.target.value);
   };
 
-  //Editting existing todos
+  //Editing existing transaction
   const handleEdit = async (values, category) => {
     // console.log(values);
     // e.preventDefault();
