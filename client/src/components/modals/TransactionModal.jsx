@@ -66,7 +66,8 @@ const TransactionModal = (props) => {
         tr_amount: values.tr_amount,
         tr_date: values.tr_date,
       };
-      console.log(body);
+      // console.log(body);
+      // eslint-disable-next-line
       const response = await fetch(
         `http://localhost:5000/transactions/${transaction.tr_id}`,
         {

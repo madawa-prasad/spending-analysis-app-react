@@ -8,7 +8,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { daysData } from '../../data/mockDays';
+// import { daysData } from '../../data/mockDays';
 
 //Generating chart data array
 const LineChartD = ({ data }) => {

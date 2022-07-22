@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const SetBudget = (props) => {
+const BudgetModal = (props) => {
   const [show, setShow] = useState(false);
   const [budget, setBudget] = useState([]);
 
@@ -30,7 +30,8 @@ const SetBudget = (props) => {
         est_income: budget.est_income,
         est_expenditure: budget.est_expenditure,
       };
-      console.log(body);
+      // console.log(body);
+      // eslint-disable-next-line
       const response = await fetch(
         `http://localhost:5000/budget/${budget.est_id}`,
         {
@@ -54,7 +55,8 @@ const SetBudget = (props) => {
         est_income: budget.est_income,
         est_expenditure: budget.est_expenditure,
       };
-      console.log(body);
+      // console.log(body);
+      // eslint-disable-next-line
       const response = await fetch('http://localhost:5000/budget', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -130,4 +132,4 @@ const SetBudget = (props) => {
   );
 };
 
-export default SetBudget;
+export default BudgetModal;

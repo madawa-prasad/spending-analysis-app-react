@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Footer from '../components/footer/Footer';
 import DropDownInput from '../components/inputs/DropDownInput';
-import SetBudget from '../components/modals/SetBudget';
+import BudgetModal from '../components/modals/BudgetModal';
 import Navbar from '../components/navbar/Navbar';
 import Transactions from '../components/transactions/Transactions';
 import { monthOptions, yearOptions } from '../data/dropDownOptions';
@@ -110,7 +110,7 @@ const HomePage = () => {
               <div className="d-flex flex-row justify-content-between">
                 <span className="title text-white fw-bold">Planned budget</span>
                 {/* <i className="bi bi-pencil-square text-white"></i> */}
-                <SetBudget
+                <BudgetModal
                   budget={budget}
                   isEdit={budget.length !== 0 && true}
                 />

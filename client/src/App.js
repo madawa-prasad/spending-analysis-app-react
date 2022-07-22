@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import Summary from './pages/Summary';
-import LandingPage from './pages/LandingPage';
+// import LandingPage from './pages/LandingPage';
 
 function App() {
   return (
