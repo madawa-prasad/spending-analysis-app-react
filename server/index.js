@@ -210,6 +210,21 @@ app.get('/sumsD/:est_id', async (req, res) => {
   }
 });
 
+//Get sums based category
+app.get('/sumsC/:est_id/:is_income', async (req, res) => {
+  try {
+    const est_id = req.params.est_id;
+    const is_income = req.params.is_income;
+    const categories = await pool.query(
+      'SELECT cat_title, SUM(tr_amount) AS cat_sum FROM transactions INNER JOIN categories ON transactions.tr_category=categories.cat_id WHERE tr_is_income=$1 AND est_id = $2 GROUP BY cat_title',
+      [is_income, est_id]
+    );
+    res.json(categories.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 //SERVER
 app.listen(5000, () => {
   console.log('Server has started on port 5000');
