@@ -9,6 +9,7 @@ import DropDownInput from '../components/inputs/DropDownInput';
 import { monthOptions, yearOptions } from '../data/dropDownOptions';
 import Navbar from '../components/navbar/Navbar';
 import PieChartD from '../components/charts/PieChartD';
+import { Link } from 'react-router-dom';
 
 const Summary = () => {
   let d = new Date();
@@ -146,7 +147,14 @@ const Summary = () => {
         <Navbar />
         <div className="container top mb-4 bg-light">
           <div className="row d-flex justify-content-between mb-3 pe-3">
-            <h5 className="col mt-2">Budget Summary</h5>
+            <div className="d-flex col mt-2">
+              <div className="d-flex align-items-center">
+                <Link to="/">
+                  <i className="bi bi-arrow-left-circle col text-dark"></i>
+                </Link>
+                <h5 className="row ms-2">Budget Summary</h5>
+              </div>
+            </div>
             <i
               className="bi bi-arrow-clockwise label col-1 ms-2 btn text-decoration-underline text-center"
               onClick={() => window.location.reload()}

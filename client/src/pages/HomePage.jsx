@@ -132,9 +132,17 @@ const HomePage = () => {
               </div>
             </div>
 
-            <div className="col bg-dark mt-2 mb-2 ms-3 me-5 rounded-3 actual">
-              <Link to="/summary" className="text-decoration-none">
-                <span className="title text-white fw-bold">Actual budget</span>
+            <Link
+              to="/summary"
+              className="text-decoration-none col bg-dark mt-2 mb-2 ms-3 me-5 rounded-3"
+            >
+              <div className="actual">
+                <div className="d-flex flex-row justify-content-between">
+                  <span className="title text-white fw-bold">
+                    Actual budget
+                  </span>
+                  <i className="bi bi-box-arrow-right text-white"></i>
+                </div>
                 <div className="d-flex flex-row justify-content-around mt-2 mb-3">
                   <div className="d-flex flex-column text-center">
                     <span className="text-white">INCOME</span>
@@ -150,8 +158,8 @@ const HomePage = () => {
                     </span>
                   </div>
                 </div>
-              </Link>
-            </div>
+              </div>
+            </Link>
           </div>
         </section>
         <section className="container body mb-4 bg-light">
