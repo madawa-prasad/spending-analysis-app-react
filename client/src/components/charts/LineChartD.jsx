@@ -8,29 +8,46 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-// import { daysData } from '../../data/mockDays';
+import { daysData } from '../../data/mockDays';
 
 //Generating chart data array
 const LineChartD = ({ data }) => {
-  // console.log('data:>>', data);
-  // console.log('day:>>', data[0].tr_date);
-  const chartData = (array) => {
-    let dailySum = array?.map((value) => ({
-      day: parseInt(value.tr_date.slice(8, 10)) + 1,
-      Income: value.incomes,
-      Expense: value.expenses,
-    }));
-    return dailySum;
-  };
+  //Refactoring data for line chart
+  let dailySum = data?.map((value) => ({
+    day: parseInt(value.tr_date.slice(8, 10)) + 1,
+    income: value.incomes,
+    expense: value.expenses,
+  }));
 
-  console.log('ChartData:>>', chartData(data));
+  // console.log('DD:>>', dailySum);
+
+  //Finalizing data for line chart
+  const dayByDayArray = daysData.map((d) => {
+    const y = dailySum.find((s) => s.day === parseInt(d.day));
+    return y;
+  });
+
+  let dailySums = dayByDayArray.map((d, i) => ({
+    day: d ? d.day : i + 1,
+    income: d ? d.income : 0,
+    expense: d ? d.expense : 0,
+  }));
+
+  // console.log('RFD:>>', dailySums);
+
+  // const joined = messages.map((m, ix) => {
+  //   return [m[0], users[ix]];
+  // });
+
+  // console.log('ChartDataE:>>', chartData(data)[2]);
+  // console.log('gdata:>>', dailySums);
 
   return (
     <ResponsiveContainer width="98%" height={400}>
       <LineChart
         width={1000}
         height={400}
-        data={chartData(data)}
+        data={dailySums}
         margin={{
           top: 5,
           right: 30,
@@ -45,11 +62,11 @@ const LineChartD = ({ data }) => {
         <Legend />
         <Line
           type="monotone"
-          dataKey="Income"
+          dataKey="income"
           stroke="#6B89FF"
           activeDot={{ r: 8 }}
         />
-        <Line type="monotone" dataKey="Expense" stroke="#FF7878" />
+        <Line type="monotone" dataKey="expense" stroke="#FF7878" />
       </LineChart>
     </ResponsiveContainer>
   );
