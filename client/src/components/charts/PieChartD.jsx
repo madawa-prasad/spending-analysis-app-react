@@ -87,27 +87,23 @@ const PieChartD = (props) => {
   // console.log('dataPC:>>', data);
 
   return (
-    <div className="container">
-      <div className="pie-chart">
-        <div className="bg-white shadow mt-2 mb-2 p-1  rounded-3">
-          <p className="title text-dark fw-bold">{props.title}</p>
-          <div className="d-flex flex-row justify-content-around mb-3">
-            <PieChart width={500} height={335}>
-              <Pie
-                activeIndex={activeIndex}
-                activeShape={renderActiveShape}
-                data={data}
-                cx={250}
-                cy={150}
-                innerRadius={60}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-                onMouseEnter={onPieEnter}
-              />
-            </PieChart>
-          </div>
-        </div>
+    <div className="pie-chart bg-white m-4 p-2 rounded-3">
+      <p className="title text-dark fw-bold">{props.title}</p>
+      <div className="d-flex flex-row justify-content-around mb-3">
+        <PieChart width={500} height={335}>
+          <Pie
+            activeIndex={activeIndex}
+            activeShape={renderActiveShape}
+            data={data}
+            cx={250}
+            cy={150}
+            innerRadius={60}
+            outerRadius={80}
+            fill="#8884d8"
+            dataKey="value"
+            onMouseEnter={onPieEnter}
+          />
+        </PieChart>
       </div>
     </div>
   );

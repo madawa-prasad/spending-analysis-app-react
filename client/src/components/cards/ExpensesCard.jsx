@@ -7,9 +7,9 @@ const ExpensesCard = ({ expenditure, sumExpenses }) => {
 
   return (
     <>
-      <div className="col bg-dark mt-2 mb-2 ms-3 me-5 rounded-3 actual">
+      <div className="col bg-dark mt-2 mb-2 ms-0 me-4 rounded-3 actual">
         <span className="title text-white fw-bold">EXPENSES</span>
-        <div className="d-flex flex-row justify-content-startmt-2 mb-3">
+        <div className="d-flex flex-row justify-content-start mt-2 mb-3">
           <div className="d-flex w-100 flex-column">
             <span className="text-white fs-1 fw-bold row ms-1">
               {sumExpenses ? sumExpenses : 0} $
