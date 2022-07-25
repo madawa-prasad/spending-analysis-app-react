@@ -10,6 +10,7 @@ import { monthOptions, yearOptions } from '../data/dropDownOptions';
 import Navbar from '../components/navbar/Navbar';
 import PieChartD from '../components/charts/PieChartD';
 import { Link } from 'react-router-dom';
+import Records from '../components/records/Records';
 
 const Summary = () => {
   let d = new Date();
@@ -60,19 +61,18 @@ const Summary = () => {
   console.log('sums:>>', sums);
 
   //Fetch all transactions
-  const getAllTransactions = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/transactions/${est_id}`
-      );
-      const jsonData = await response.json();
-      setAllTransactions(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
   useEffect(() => {
+    const getAllTransactions = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/transactions/${est_id}`
+        );
+        const jsonData = await response.json();
+        setAllTransactions(jsonData);
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
     getAllTransactions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [month, year]);
@@ -162,6 +162,11 @@ const Summary = () => {
                 className="bi bi-arrow-clockwise fs-4 col-1 me-2 btn text-center"
                 onClick={() => window.location.reload()}
               ></i>
+              <Records
+                transactions={allTransactions}
+                sumExpenses={transactionsSum(expensesArr)}
+                sumIncomes={transactionsSum(incomesArr)}
+              />
               {/* <span
              className="label col-1 ms-2 btn text-decoration-underline text-center"
              onClick={() => window.location.reload()}>Reload</span> */}
