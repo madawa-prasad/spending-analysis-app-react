@@ -42,7 +42,11 @@ const Table = ({ data, deleteTransaction, options, isIncome }) => {
             <tbody>
               {data.map((transaction, index) => (
                 <tr key={index}>
-                  <td className="">{transaction.tr_description}</td>
+                  <td className="">
+                    {transaction.tr_description.length > 25
+                      ? transaction.tr_description.slice(0, 25) + '...'
+                      : transaction.tr_description}
+                  </td>
                   <td className="text-start">{transaction.cat_title}</td>
                   <td className="text-start">
                     {getMonthDate(transaction.tr_date)}
