@@ -57,7 +57,7 @@ const SummaryCard = ({ value, sum, isIncome, est_id }) => {
 
   return (
     <>
-      <div className="col bg-light border shadow mt-2 mb-2 ms-0 me-4 rounded-3 actual">
+      <div className="col bg-white border shadow mt-2 mb-2 ms-0 me-4 rounded-3 actual">
         <div className="d-flex justify-content-between">
           <span className="title fs-4 text-Dark fw-bold">
             {isIncome ? 'INCOMES' : 'EXPENSES'}
@@ -100,10 +100,10 @@ const SummaryCard = ({ value, sum, isIncome, est_id }) => {
                 )}
               </div>
               <div className="col mb-0">
-                <span className="est-income text-Dark ms-3 row">
+                <span className="est-value text-Dark ms-3 row">
                   {isIncome ? 'Target' : 'Limit'}
                 </span>
-                <span className="est-income text-Dark ms-2 mb-4 fs-5 row">
+                <span className="est-value text-Dark ms-3 mb-4 fs-5 row">
                   $ {value ? value : 0}
                 </span>
               </div>

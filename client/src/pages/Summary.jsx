@@ -96,7 +96,7 @@ const Summary = () => {
   // console.log(budget);
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-light">
         <Navbar />
         <Link
           to="/"
@@ -105,7 +105,7 @@ const Summary = () => {
           <i className="bi bi-arrow-left-circle col-1 ms-5 text-dark"></i>
           <span className="col m-0">Back to home</span>
         </Link>
-        <div className="container bg-white">
+        <div className="container bg-light">
           <div className="d-flex col ms-3 justify-content-start mt-2">
             <h5 className="row fs-4">Budget Summary{` of ${month.label}`}</h5>
           </div>
@@ -156,8 +156,8 @@ const Summary = () => {
             />
             {/* <div className="container body d-flex row mt-3 mb-4 bg-light"> */}
             <div className="row mt-3">
-              <div className="col bg-light shadow border p-3 mb-2 rounded-3 ">
-                <div className="d-flex row bg-light rounded-3 p-2">
+              <div className="col bg-white shadow border p-3 mb-2 rounded-3 ">
+                <div className="d-flex row bg-white rounded-3 p-2">
                   <p className="text-dark">{month.label} Incomes & Expenses</p>
                   <LineChartD className="col-12 d-flex " data={sums} />
                 </div>
