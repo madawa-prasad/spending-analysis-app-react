@@ -88,23 +88,35 @@ const HomePage = () => {
       <div className="bg-light">
         <Navbar />
         <section className="container top mb-4 bg-light">
-          <div className="row d-flex flex-row justify-content-start mb-3 ms-4">
-            <DropDownInput
-              options={yearOptions}
-              className="col-2 me-4 mt-2"
-              placeholder="Select Year"
-              name="year"
-              value={year}
-              onChange={setYear}
-            />
-            <DropDownInput
-              options={monthOptions}
-              className="col-2 me-4 mt-2"
-              placeholder="Select Month"
-              name="month"
-              value={month}
-              onChange={setMonth}
-            />
+          <div className="row d-flex flex-row justify-content-between mb-3 ms-4 me-4">
+            <div className="d-flex col justify-content-start">
+              <DropDownInput
+                options={yearOptions}
+                className="col-2 me-4 mt-2"
+                placeholder="Select Year"
+                name="year"
+                value={year}
+                onChange={setYear}
+              />
+              <DropDownInput
+                options={monthOptions}
+                className="col-2 me-4 mt-2"
+                placeholder="Select Month"
+                name="month"
+                value={month}
+                onChange={setMonth}
+              />
+              <div className="d-flex col ms-5 justify-content-end">
+                <Link to="/summary">
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary mt-2 ms-5"
+                  >
+                    View Summary
+                  </button>
+                </Link>
+              </div>
+            </div>
           </div>
           <div className="row">
             <div className="col bg-white border shadow mt-2 mb-2 ms-5 me-3 rounded-3 expected ">
@@ -134,37 +146,28 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-
-            <Link
-              to="/summary"
-              className="text-decoration-none col bg-white border shadow mt-2 mb-2 ms-3 me-5 rounded-3"
-            >
-              <div className="actual">
-                <div className="d-flex flex-row justify-content-between">
-                  <span className="title text-dark fs-5 fw-bold">
-                    Actual budget
-                  </span>
-                  <span className="text-dark text-decoration-underline">
-                    More
+            <div className="actual text-decoration-none col bg-white border shadow mt-2 mb-2 ms-3 me-5 rounded-3">
+              <div className="d-flex flex-row justify-content-between">
+                <span className="title text-dark fs-5 fw-bold">
+                  Actual budget
+                </span>
+              </div>
+              <div className="d-flex flex-row justify-content-around mt-2 mb-3">
+                <div className="d-flex flex-column text-center">
+                  <span className="text-dark">INCOME</span>
+                  <span className="text-dark fs-1 fw-bold">
+                    $ {transactionsSum(incomesArr).toFixed(2)}
                   </span>
                 </div>
-                <div className="d-flex flex-row justify-content-around mt-2 mb-3">
-                  <div className="d-flex flex-column text-center">
-                    <span className="text-dark">INCOME</span>
-                    <span className="text-dark fs-1 fw-bold">
-                      $ {transactionsSum(incomesArr).toFixed(2)}
-                    </span>
-                  </div>
-                  <div className="border-end"></div>
-                  <div className="d-flex flex-column text-center">
-                    <span className="text-dark">EXPENDITURE</span>
-                    <span className="text-dark fs-1 fw-bold">
-                      $ {transactionsSum(expensesArr).toFixed(2)}
-                    </span>
-                  </div>
+                <div className="border-end"></div>
+                <div className="d-flex flex-column text-center">
+                  <span className="text-dark">EXPENDITURE</span>
+                  <span className="text-dark fs-1 fw-bold">
+                    $ {transactionsSum(expensesArr).toFixed(2)}
+                  </span>
                 </div>
               </div>
-            </Link>
+            </div>
           </div>
         </section>
         <section className="container body mb-4">

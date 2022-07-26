@@ -121,29 +121,29 @@ const Transactions = ({ isIncome, est_id }) => {
   return (
     <>
       <div className="row ms-3 d-flex flex-row">
-        <div className="row d-flex align-items-center p-0">
-          <div className="col-7  d-flex justify-content-between">
-            <div className="d-flex ms-2 align-items-center ">
-              <label htmlFor="filter" className="label me-2">
+        <div className="row mt-2 d-flex align-items-center p-0">
+          <div className="col p-0">
+            <div className="d-flex align-items-center justify-content-start">
+              <label htmlFor="filter" className="label text-start col-1">
                 Filter
               </label>
               <DropDownInput
                 options={filterOptions(categories)}
-                className="col-7"
+                className="col-5 ms-0"
                 placeholder="Select Category"
                 name="filter"
                 value={filter}
                 onChange={setFilter}
               />
               <span
-                className="label col-6 btn text-decoration-underline text-center"
+                className="label col-3 btn text-decoration-underline text-primary text-center"
                 onClick={() => setFilter('')}
               >
                 Clear Filter
               </span>
             </div>
           </div>
-          <div className="col-4 m-4 ms-5 d-flex justify-content-center">
+          <div className="col text-white text-end p-0">
             <TransactionModal
               categories={filterOptions(categories)}
               isIncome={isIncome}
