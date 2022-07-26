@@ -10,7 +10,6 @@ import { monthOptions, yearOptions } from '../data/dropDownOptions';
 
 const HomePage = () => {
   let d = new Date();
-  // let y = d.getFullYear();
   let m = d.getMonth() + 1;
   let monthName = monthOptions[m - 1];
 
@@ -20,13 +19,13 @@ const HomePage = () => {
   const [budget, setBudget] = useState([]);
   const [allTransactions, setAllTransactions] = useState([]);
 
-  let _id = year.value + '' + month.value;
-  console.log(_id);
+  let est_id = year.value + '' + month.value;
+  //console.log('EST_ID:>>', est_id);
 
   //Fetching budget data
   const getBudget = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/budget/${_id}`);
+      const response = await fetch(`http://localhost:5000/budget/${est_id}`);
       const jsonData = await response.json();
       setBudget(jsonData);
     } catch (err) {
@@ -37,7 +36,9 @@ const HomePage = () => {
   //Fetch all transactions
   const getAllTransactions = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/transactions/${_id}`);
+      const response = await fetch(
+        `http://localhost:5000/transactions/${est_id}`
+      );
       const jsonData = await response.json();
       setAllTransactions(jsonData);
     } catch (err) {
@@ -87,7 +88,7 @@ const HomePage = () => {
       <div className="bg-light">
         <Navbar />
         <section className="container top mb-4 bg-light">
-          <div className="row d-flex flex-row justify-content-end mb-3 pe-3">
+          <div className="row d-flex flex-row justify-content-start mb-3 ms-4">
             <DropDownInput
               options={yearOptions}
               className="col-2 me-4 mt-2"
@@ -106,10 +107,12 @@ const HomePage = () => {
             />
           </div>
           <div className="row">
-            <div className="col bg-dark mt-2 mb-2 ms-5 me-3 rounded-3 expected ">
+            <div className="col bg-white border shadow mt-2 mb-2 ms-5 me-3 rounded-3 expected ">
               <div className="d-flex flex-row justify-content-between">
-                <span className="title text-white fw-bold">Planned budget</span>
-                {/* <i className="bi bi-pencil-square text-white"></i> */}
+                <span className="title text-dark fs-5 fw-bold">
+                  Planned budget
+                </span>
+                {/* <i className="bi bi-pencil-square text-dark"></i> */}
                 <BudgetModal
                   budget={budget}
                   isEdit={budget.length !== 0 && true}
@@ -117,16 +120,16 @@ const HomePage = () => {
               </div>
               <div className="d-flex flex-row justify-content-around mb-3">
                 <div className="d-flex flex-column text-center">
-                  <span className="text-white">INCOME</span>
-                  <span className="text-white fs-1 fw-bold">
-                    {budget.length === 0 ? 0 : budget.est_income} $
+                  <span className="text-dark">INCOME</span>
+                  <span className="text-dark fs-1 fw-bold">
+                    $ {budget.length === 0 ? 0 : budget.est_income}
                   </span>
                 </div>
                 <div className="border-end"></div>
                 <div className="d-flex flex-column text-center">
-                  <span className="text-white">EXPENDITURE</span>
-                  <span className="text-white fs-1 fw-bold">
-                    {budget.length === 0 ? 0 : budget.est_expenditure} $
+                  <span className="text-dark">EXPENDITURE</span>
+                  <span className="text-dark fs-1 fw-bold">
+                    $ {budget.length === 0 ? 0 : budget.est_expenditure}
                   </span>
                 </div>
               </div>
@@ -134,27 +137,29 @@ const HomePage = () => {
 
             <Link
               to="/summary"
-              className="text-decoration-none col bg-dark mt-2 mb-2 ms-3 me-5 rounded-3"
+              className="text-decoration-none col bg-white border shadow mt-2 mb-2 ms-3 me-5 rounded-3"
             >
               <div className="actual">
                 <div className="d-flex flex-row justify-content-between">
-                  <span className="title text-white fw-bold">
+                  <span className="title text-dark fs-5 fw-bold">
                     Actual budget
                   </span>
-                  <i className="bi bi-box-arrow-right text-white"></i>
+                  <span className="text-dark text-decoration-underline">
+                    More
+                  </span>
                 </div>
                 <div className="d-flex flex-row justify-content-around mt-2 mb-3">
                   <div className="d-flex flex-column text-center">
-                    <span className="text-white">INCOME</span>
-                    <span className="text-white fs-1 fw-bold">
-                      {transactionsSum(incomesArr)} $
+                    <span className="text-dark">INCOME</span>
+                    <span className="text-dark fs-1 fw-bold">
+                      $ {transactionsSum(incomesArr).toFixed(2)}
                     </span>
                   </div>
                   <div className="border-end"></div>
                   <div className="d-flex flex-column text-center">
-                    <span className="text-white">EXPENDITURE</span>
-                    <span className="text-white fs-1 fw-bold">
-                      {transactionsSum(expensesArr)} $
+                    <span className="text-dark">EXPENDITURE</span>
+                    <span className="text-dark fs-1 fw-bold">
+                      $ {transactionsSum(expensesArr).toFixed(2)}
                     </span>
                   </div>
                 </div>
@@ -162,14 +167,14 @@ const HomePage = () => {
             </Link>
           </div>
         </section>
-        <section className="container body mb-4 bg-light">
+        <section className="container body mb-4">
           <div className="row">
-            <div className="col bg-dark p-3 mb-2 ms-5 me-5 rounded-3 ">
-              <div className="d-flex row bg-light ms-2 me-2 mt-2 mb-4 rounded-3 p-2">
-                <ul className="nav nav-pills d-flex justify-content-between">
+            <div className="col bg-light bg-white shadow p-3 mb-2 ms-5 me-5 rounded-3 ">
+              <div className="d-flex row bg-light shadow-sm ms-2 me-2 mt-2 mb-4 rounded-3 p-2">
+                <ul className="nav nav-pills border border-primary rounded-3">
                   <li className="nav-item col-6" role="presentation">
                     <button
-                      className="nav-link col-12 rounded-3 ps-5 pe-5 active"
+                      className="nav-link col-12 ps-5 pe-5 active"
                       id="home-tab"
                       data-bs-toggle="tab"
                       data-bs-target="#home"
@@ -184,7 +189,7 @@ const HomePage = () => {
                   </li>
                   <li className="nav-item col-6" role="presentation">
                     <button
-                      className="nav-link ms-2 col-12 rounded-3 ps-5 pe-5 "
+                      className="nav-link ms-3 col-12 rounded-3 ps-5 pe-5 "
                       id="profile-tab"
                       data-bs-toggle="tab"
                       data-bs-target="#profile"
@@ -199,8 +204,8 @@ const HomePage = () => {
                   </li>
                 </ul>
               </div>
-              <div className="row bg-light d-flex mt-2 mb-2 ms-2 me-2 rounded-3">
-                <Transactions isIncome={isIncome} est_id={_id} />
+              <div className="row bg-light shadow-sm d-flex mt-2 mb-2 ms-2 me-2 rounded-3">
+                <Transactions isIncome={isIncome} est_id={est_id} />
               </div>
             </div>
           </div>

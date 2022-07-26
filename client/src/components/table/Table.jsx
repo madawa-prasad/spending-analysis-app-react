@@ -1,4 +1,5 @@
 import React from 'react';
+import DeleteConfirmation from '../modals/DeleteConfirmation';
 import TransactionModal from '../modals/TransactionModal';
 
 import './table.css';
@@ -13,11 +14,14 @@ const Table = ({ data, deleteTransaction, options, isIncome }) => {
   };
 
   return (
-    <div className="container">
-      <div className="bg-white d-flex shadow mt-2 mb-2 p-1 rounded-3">
+    <>
+      <div className="bg-white d-flex shadow-sm border mt-2 me-3 mb-2 p-1 rounded-3">
         <div className="table table-wrapper overflow-auto ">
           <table className="table table-responsive">
-            <thead className="sticky">
+            <thead
+              className="bg-white"
+              style={{ position: 'sticky', top: '0' }}
+            >
               <tr>
                 <th scope="col" className="">
                   Description
@@ -28,8 +32,8 @@ const Table = ({ data, deleteTransaction, options, isIncome }) => {
                 <th scope="col" className="text-center">
                   Date
                 </th>
-                <th scope="col" className="text-center">
-                  Amount
+                <th scope="col" className="text-end">
+                  Amount ($)
                 </th>
                 <th scope="col" className="text-center">
                   Edit
@@ -51,7 +55,7 @@ const Table = ({ data, deleteTransaction, options, isIncome }) => {
                   <td className="text-start">
                     {getMonthDate(transaction.tr_date)}
                   </td>
-                  <td className="text-end">{transaction.tr_amount}</td>
+                  <td className="text-center">{transaction.tr_amount}</td>
                   <td className="text-center">
                     <TransactionModal
                       isEdit={true}
@@ -61,10 +65,11 @@ const Table = ({ data, deleteTransaction, options, isIncome }) => {
                     />
                   </td>
                   <td className="text-center">
-                    <i
-                      className="bi bi-trash"
-                      onClick={() => deleteTransaction(transaction.tr_id)}
-                    ></i>
+                    <DeleteConfirmation
+                      deleteTransaction={() =>
+                        deleteTransaction(transaction.tr_id)
+                      }
+                    />
                   </td>
                 </tr>
               ))}
@@ -72,7 +77,7 @@ const Table = ({ data, deleteTransaction, options, isIncome }) => {
           </table>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

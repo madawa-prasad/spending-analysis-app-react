@@ -11,6 +11,9 @@ const Transactions = ({ isIncome, est_id }) => {
   const [filter, setFilter] = useState('');
   const [categorySums, setCategorySums] = useState([]);
 
+  const color = isIncome ? '#6B89FF' : '#6B89FF';
+  // console.log('Pie Color:>>'color);
+
   //Fetching Categories
   const getCategories = async () => {
     try {
@@ -118,37 +121,36 @@ const Transactions = ({ isIncome, est_id }) => {
   return (
     <>
       <div className="row ms-3 d-flex flex-row">
-        <div className="col-5 m-4 ms-0 d-flex justify-content-center">
-          <TransactionModal
-            categories={filterOptions(categories)}
-            isIncome={isIncome}
-          />
-        </div>
-        <div className="col-6  d-flex justify-content-end">
-          <div className="col d-flex align-items-center justify-content-end">
-            <label htmlFor="filter" className="label col-3">
-              Category
-            </label>
-            <DropDownInput
-              options={filterOptions(categories)}
-              className="col-6"
-              placeholder="Select Category"
-              name="filter"
-              value={filter}
-              onChange={setFilter}
+        <div className="row d-flex align-items-center p-0">
+          <div className="col-7  d-flex justify-content-between">
+            <div className="d-flex ms-2 align-items-center ">
+              <label htmlFor="filter" className="label me-2">
+                Filter
+              </label>
+              <DropDownInput
+                options={filterOptions(categories)}
+                className="col-7"
+                placeholder="Select Category"
+                name="filter"
+                value={filter}
+                onChange={setFilter}
+              />
+              <span
+                className="label col-6 btn text-decoration-underline text-center"
+                onClick={() => setFilter('')}
+              >
+                Clear Filter
+              </span>
+            </div>
+          </div>
+          <div className="col-4 m-4 ms-5 d-flex justify-content-center">
+            <TransactionModal
+              categories={filterOptions(categories)}
+              isIncome={isIncome}
             />
-            <span
-              className="label col-1 ms-2 btn text-decoration-underline text-center"
-              onClick={() => setFilter('')}
-            >
-              Clear Filter
-            </span>
           </div>
         </div>
-        <div className="row">
-          <div className="col-5 p-0">
-            <PieChartD data={chartData(categorySums)} />
-          </div>
+        <div className="row p-0">
           <div className="col-7 p-0">
             <Table
               data={filter ? filteredData(transactions) : transactions}
@@ -156,6 +158,11 @@ const Transactions = ({ isIncome, est_id }) => {
               options={filterOptions(categories)}
               isIncome={isIncome}
             />
+          </div>
+          <div className="col-5 mt-2 mb-3 p-0 border bg-white shadow-sm rounded-3">
+            <div className="mt-5">
+              <PieChartD data={chartData(categorySums)} color={color} />
+            </div>
           </div>
         </div>
       </div>
