@@ -109,7 +109,7 @@ const Summary = () => {
           <div className="d-flex col ms-3 justify-content-start mt-2">
             <h5 className="row fs-4">Budget Summary{` of ${month.label}`}</h5>
           </div>
-          <div className="row d-flex justify-content-between mb-3">
+          <div className="row d-flex justify-content-between mb-0">
             <div className="d-flex col-6 ms-1 justify-content-start align-items-center">
               <DropDownInput
                 options={yearOptions}
@@ -141,7 +141,7 @@ const Summary = () => {
               />
             </div>
           </div>
-          <div className="row ms-2 d-flex">
+          <div className="row ms-1 d-flex">
             <SummaryCard
               value={budget.est_income}
               sum={transactionsSum(incomesArr)}
