@@ -75,7 +75,7 @@ const BudgetModal = (props) => {
   console.log(budget.est_income, budget.est_expenditure);
   return (
     <>
-      <i className="bi bi-pencil-square text-white" onClick={handleShow}></i>
+      <i className="bi bi-pencil-square text-dark" onClick={handleShow}></i>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
