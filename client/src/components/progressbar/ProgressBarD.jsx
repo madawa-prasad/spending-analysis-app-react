@@ -6,6 +6,7 @@ const ProgressBarD = (props) => {
       variant={props.variant}
       now={props.now}
       label={`${props.now}%`}
+      style={{ height: '25px' }}
     />
   );
 };

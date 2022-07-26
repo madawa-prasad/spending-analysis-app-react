@@ -7,10 +7,12 @@ const Records = (transactions) => {
     <div>
       <div className="container mb-4 mt-4 p-3">
         <div className="row">
-          <i
-            class="bi bi-filetype-pdf"
+          <button
+            class="btn btn-primary"
             onClick={() => generatePDF(transactions)}
-          ></i>
+          >
+            Download PDF
+          </button>
         </div>
       </div>
     </div>
