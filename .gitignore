@@ -2,7 +2,7 @@
 
 # dependencies
 client/node_modules
-server/node_modules
+node_modules
 /.pnp
 .pnp.js
 
@@ -18,7 +18,7 @@ server/node_modules
 .env.development.local
 .env.test.local
 .env.production.local
-server/.env
+.env
 client/.env
 
 npm-debug.log*
