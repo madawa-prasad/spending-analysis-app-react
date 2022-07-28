@@ -13,8 +13,7 @@ const TransactionModal = (props) => {
   const categories = props.categories;
   const isEdit = props.isEdit;
   const isIncome = props.isIncome;
-
-  // console.log(props.isIncome);
+  const setTransactions = props.setTransactions;
 
   const handleClose = () => {
     setShow(false);
@@ -52,13 +51,10 @@ const TransactionModal = (props) => {
   //Handle change
   const changeHandler = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
-    // console.log(e.target.value);
   };
 
   //Editing existing transaction
   const handleEdit = async (values, category) => {
-    // console.log(values);
-    // e.preventDefault();
     try {
       const body = {
         tr_description: values.tr_description,
@@ -66,7 +62,6 @@ const TransactionModal = (props) => {
         tr_amount: values.tr_amount,
         tr_date: values.tr_date,
       };
-      // console.log(body);
       // eslint-disable-next-line
       const response = await fetch(
         `http://localhost:5000/transactions/${transaction.tr_id}`,
@@ -77,17 +72,15 @@ const TransactionModal = (props) => {
         }
       );
       setShow(false);
-      window.location = '/';
+      setTransactions();
     } catch (err) {
       console.error(err.message);
       setShow(false);
     }
   };
 
-  //Handle Submit
+  //Handle adding new Submit
   const handleNewTransaction = async (values, category) => {
-    // console.log(values);
-    // e.preventDefault();
     try {
       const body = {
         tr_description: values.tr_description,
@@ -95,7 +88,7 @@ const TransactionModal = (props) => {
         tr_amount: values.tr_amount,
         tr_date: values.tr_date,
       };
-      // console.log(body);
+      // eslint-disable-next-line
       const response = await fetch(
         `http://localhost:5000/${isIncome ? 'incomes' : 'expenses'}`,
         {
@@ -105,8 +98,7 @@ const TransactionModal = (props) => {
         }
       );
       setShow(false);
-      window.location = '/';
-      console.log(response);
+      setTransactions();
     } catch (err) {
       console.error(err.message);
       setShow(false);
@@ -130,10 +122,6 @@ const TransactionModal = (props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* <form
-            onSubmit={handleEdit}
-            className="w-750 mt-5 mb-5 mx-auto bg-light p-3 rounded-3"
-          > */}
           <label htmlFor="description" className="grey-text">
             Description
           </label>
@@ -205,7 +193,6 @@ const TransactionModal = (props) => {
               Save Changes
             </Button>
           </Modal.Footer>
-          {/* </form> */}
         </Modal.Body>
       </Modal>
     </>
