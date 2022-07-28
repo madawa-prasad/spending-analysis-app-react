@@ -9,6 +9,7 @@ const BudgetModal = (props) => {
   let isEdit = props.isEdit;
 
   const handleClose = () => setShow(false);
+
   const handleShow = () => {
     setBudget(props.budget);
     setShow(true);
@@ -40,7 +41,7 @@ const BudgetModal = (props) => {
         }
       );
       setShow(false);
-      window.location = '/';
+      props.setBudget(budget);
     } catch (err) {
       console.error(err.message);
       setShow(false);
@@ -61,7 +62,7 @@ const BudgetModal = (props) => {
         body: JSON.stringify(body),
       });
       setShow(false);
-      window.location = '/';
+      setBudget(budget);
     } catch (err) {
       console.error(err.message);
       setShow(false);

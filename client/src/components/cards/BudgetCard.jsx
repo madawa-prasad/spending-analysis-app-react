@@ -1,24 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
 import BudgetModal from '../modals/BudgetModal';
+import { getBudget, getAllTransactions } from '../../api/homePageAPICalls';
 
 const BudgetCard = ({ month, year, est_id, isActual, isIncome }) => {
   const [budget, setBudget] = useState([]);
   const [allTransactions, setAllTransactions] = useState([]);
 
-  //Fetching budget data
-  const getBudget = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/budget/${est_id}`);
-      const jsonData = await response.json();
-      setBudget(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
+  //Fetch budget
   useEffect(() => {
-    getBudget();
+    getBudget(est_id, setBudget);
     return () => {
       setBudget([]);
     };
@@ -26,19 +17,8 @@ const BudgetCard = ({ month, year, est_id, isActual, isIncome }) => {
   }, [month, year]);
 
   //Fetch all transactions
-  const getAllTransactions = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/transactions/${est_id}`
-      );
-      const jsonData = await response.json();
-      setAllTransactions(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
   useEffect(() => {
-    getAllTransactions();
+    getAllTransactions(est_id, setAllTransactions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isIncome, month, year]);
 
@@ -66,7 +46,11 @@ const BudgetCard = ({ month, year, est_id, isActual, isIncome }) => {
       <div className="d-flex flex-row justify-content-between">
         <span className="title text-dark fs-5 fw-bold">Planned budget</span>
         {!isActual && (
-          <BudgetModal budget={budget} isEdit={budget.length !== 0 && true} />
+          <BudgetModal
+            budget={budget}
+            isEdit={budget.length !== 0 && true}
+            setBudget={setBudget}
+          />
         )}
       </div>
       <div className="d-flex flex-row justify-content-around mb-3">

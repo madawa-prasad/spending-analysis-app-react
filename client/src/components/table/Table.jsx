@@ -1,10 +1,12 @@
 import React from 'react';
+
 import DeleteConfirmation from '../modals/DeleteConfirmation';
 import TransactionModal from '../modals/TransactionModal';
+import { handleDelete } from '../../api/homePageAPICalls';
 
 import './table.css';
 
-const Table = ({ data, deleteTransaction, options, isIncome }) => {
+const Table = ({ data, options, isIncome, transactions, setTransactions }) => {
   //Recording month and date in table
   const getMonthDate = (d) => {
     var date = new Date(d);
@@ -67,7 +69,11 @@ const Table = ({ data, deleteTransaction, options, isIncome }) => {
                   <td className="text-center">
                     <DeleteConfirmation
                       deleteTransaction={() =>
-                        deleteTransaction(transaction.tr_id)
+                        handleDelete(
+                          transaction.tr_id,
+                          transactions,
+                          setTransactions
+                        )
                       }
                     />
                   </td>

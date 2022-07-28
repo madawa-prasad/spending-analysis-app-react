@@ -48,7 +48,7 @@ const LineChartD = ({ data }) => {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="day" />
 
-        <YAxis type="number" domain={[0, 'dataMax + 100']} />
+        <YAxis type="number" domain={[0, 'dataMax + 500']} />
 
         <Tooltip />
         <Legend />

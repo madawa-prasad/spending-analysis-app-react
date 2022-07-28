@@ -81,7 +81,7 @@ const SummaryCard = ({ value, sum, isIncome, est_id }) => {
             </span>
 
             <span className="text-Dark fs-1 fw-bold ms-1 mt-4">
-              $ {sum ? sum : 0}
+              $ {sum ? sum.toFixed(2) : 0}
             </span>
             <div className="progressBar d-flex align-items-center ms-1">
               <div className="col-10 mt-0">

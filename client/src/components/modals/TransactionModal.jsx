@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import DropDownInput from '../inputs/DropDownInput';
+import { handleEdit, handleNewTransaction } from '../../api/homePageAPICalls';
 
 const TransactionModal = (props) => {
   const [show, setShow] = useState(false);
@@ -51,58 +53,6 @@ const TransactionModal = (props) => {
   //Handle change
   const changeHandler = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
-  //Editing existing transaction
-  const handleEdit = async (values, category) => {
-    try {
-      const body = {
-        tr_description: values.tr_description,
-        tr_category: category.value,
-        tr_amount: values.tr_amount,
-        tr_date: values.tr_date,
-      };
-      // eslint-disable-next-line
-      const response = await fetch(
-        `http://localhost:5000/transactions/${transaction.tr_id}`,
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        }
-      );
-      setShow(false);
-      setTransactions();
-    } catch (err) {
-      console.error(err.message);
-      setShow(false);
-    }
-  };
-
-  //Handle adding new Submit
-  const handleNewTransaction = async (values, category) => {
-    try {
-      const body = {
-        tr_description: values.tr_description,
-        tr_category: category.value,
-        tr_amount: values.tr_amount,
-        tr_date: values.tr_date,
-      };
-      // eslint-disable-next-line
-      const response = await fetch(
-        `http://localhost:5000/${isIncome ? 'incomes' : 'expenses'}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        }
-      );
-      setShow(false);
-      setTransactions();
-    } catch (err) {
-      console.error(err.message);
-      setShow(false);
-    }
   };
 
   return (
@@ -186,8 +136,20 @@ const TransactionModal = (props) => {
               variant="primary"
               onClick={() => {
                 isEdit
-                  ? handleEdit(values, category)
-                  : handleNewTransaction(values, category);
+                  ? handleEdit(
+                      values,
+                      category,
+                      transaction,
+                      setShow,
+                      setTransactions
+                    )
+                  : handleNewTransaction(
+                      values,
+                      category,
+                      setShow,
+                      setTransactions,
+                      isIncome
+                    );
               }}
             >
               Save Changes
