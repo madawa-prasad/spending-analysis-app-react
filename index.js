@@ -226,6 +226,6 @@ app.get('/sumsC/:est_id/:is_income', async (req, res) => {
 });
 
 //SERVER
-app.listen(5000, () => {
+app.listen(process.env.REACT_APP_SERVER_PORT, () => {
   console.log('Server has started on port 5000');
 });
