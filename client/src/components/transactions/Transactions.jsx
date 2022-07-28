@@ -12,7 +12,6 @@ const Transactions = ({ isIncome, est_id }) => {
   const [categorySums, setCategorySums] = useState([]);
 
   const color = isIncome ? '#6B89FF' : '#6B89FF';
-  // console.log('Pie Color:>>'color);
 
   //Fetching Categories
   const getCategories = async () => {
@@ -26,7 +25,6 @@ const Transactions = ({ isIncome, est_id }) => {
       console.error(err.message);
     }
   };
-  // console.log(categories);
 
   useEffect(() => {
     getCategories();
@@ -89,7 +87,7 @@ const Transactions = ({ isIncome, est_id }) => {
     }
   };
 
-  //Fetch data for piecharts
+  //Fetch data for pieCharts
   const getPieChartData = async () => {
     try {
       const response = await fetch(
@@ -102,7 +100,7 @@ const Transactions = ({ isIncome, est_id }) => {
     }
   };
 
-  //Modify piechart data
+  //Modify pieChart data
   const chartData = (array) => {
     let categorySum = array?.map((item) => ({
       name: item.cat_title,
@@ -111,12 +109,15 @@ const Transactions = ({ isIncome, est_id }) => {
     return categorySum;
   };
 
-  // console.log('categorySums:>>', chartData(categorySums));
-
   useEffect(() => {
     getPieChartData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [est_id, isIncome]);
+
+  //Update table data on adding and editing
+  const addUpdateHandle = () => {
+    getTransactions();
+  };
 
   return (
     <>
@@ -147,6 +148,7 @@ const Transactions = ({ isIncome, est_id }) => {
             <TransactionModal
               categories={filterOptions(categories)}
               isIncome={isIncome}
+              setTransactions={addUpdateHandle}
             />
           </div>
         </div>
