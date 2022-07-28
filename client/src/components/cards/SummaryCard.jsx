@@ -1,41 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import PieChartD from '../charts/PieChartD';
 
+import PieChartD from '../charts/PieChartD';
 import ProgressBarD from '../progressbar/ProgressBarD';
+import {
+  getIncomePieChartData,
+  getExpensePieChartData,
+} from '../../api/summaryPageAPICalls';
 
 const SummaryCard = ({ value, sum, isIncome, est_id }) => {
   const percentage = ((sum / value) * 100).toFixed(2);
   const difference = sum - value;
+  const color = isIncome ? '#6B89FF' : '#FF7878';
 
   const [incomeCategorySums, setIncomeCategorySums] = useState([]);
   const [expenseCategorySums, setExpenseCategorySums] = useState([]);
 
   //Fetch data for pieCharts
-  //Incomes
-  const getIncomePieChartData = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/sumsC/${est_id}/true`
-      );
-      const jsonData = await response.json();
-      setIncomeCategorySums(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
+  useEffect(() => {
+    getIncomePieChartData(est_id, setIncomeCategorySums);
+    getExpensePieChartData(est_id, setExpenseCategorySums);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [est_id]);
 
-  //Expenses
-  const getExpensePieChartData = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/sumsC/${est_id}/false`
-      );
-      const jsonData = await response.json();
-      setExpenseCategorySums(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
   //Modify pieChart data
   const pieChartData = (array) => {
     let categorySum = array?.map((item) => ({
@@ -44,14 +30,6 @@ const SummaryCard = ({ value, sum, isIncome, est_id }) => {
     }));
     return categorySum;
   };
-
-  useEffect(() => {
-    getIncomePieChartData();
-    getExpensePieChartData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [est_id]);
-
-  const color = isIncome ? '#6B89FF' : '#FF7878';
 
   return (
     <>

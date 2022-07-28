@@ -1,14 +1,19 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import LineChartD from '../components/charts/LineChartD';
 import Footer from '../components/footer/Footer';
 import DropDownInput from '../components/inputs/DropDownInput';
 import { monthOptions, yearOptions } from '../data/dropDownOptions';
 import Navbar from '../components/navbar/Navbar';
-import { Link } from 'react-router-dom';
 import Records from '../components/records/Records';
 import SummaryCard from '../components/cards/SummaryCard';
+import {
+  getBudget,
+  getSums,
+  getAllTransactions,
+} from '../api/summaryPageAPICalls';
 
 const Summary = () => {
   let d = new Date();
@@ -22,31 +27,9 @@ const Summary = () => {
 
   let est_id = year.value + '' + month.value;
 
-  //Fetching budget data
-  const getBudget = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/budget/${est_id}`);
-      const jsonData = await response.json();
-      setBudget(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
-  //Fetching sums data
-  const getSums = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/sumsD/${est_id}`);
-      const jsonData = await response.json();
-      setSums(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
   useEffect(() => {
-    getBudget();
-    getSums();
+    getBudget(est_id, setBudget);
+    getSums(est_id, setSums);
     return () => {
       setBudget([]);
     };
@@ -55,18 +38,7 @@ const Summary = () => {
 
   //Fetch all transactions
   useEffect(() => {
-    const getAllTransactions = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/transactions/${est_id}`
-        );
-        const jsonData = await response.json();
-        setAllTransactions(jsonData);
-      } catch (err) {
-        console.error(err.message);
-      }
-    };
-    getAllTransactions();
+    getAllTransactions(est_id, setAllTransactions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [month, year]);
 
