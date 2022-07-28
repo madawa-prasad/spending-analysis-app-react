@@ -84,7 +84,6 @@ const PieChartD = (props) => {
   );
 
   const data = props.data;
-  // console.log('dataPC:>>', data);
 
   return (
     <div className="pie-chart rounded-3">

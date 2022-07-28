@@ -21,7 +21,6 @@ const Summary = () => {
   const [sums, setSums] = useState([]);
 
   let est_id = year.value + '' + month.value;
-  // console.log(est_id);
 
   //Fetching budget data
   const getBudget = async () => {
@@ -53,8 +52,6 @@ const Summary = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [month, year]);
-
-  console.log('sums:>>', sums);
 
   //Fetch all transactions
   useEffect(() => {
@@ -92,8 +89,6 @@ const Summary = () => {
     return sum;
   };
 
-  // console.log(transactionsSum(incomesArr));
-  // console.log(budget);
   return (
     <>
       <div className="bg-light">
@@ -154,7 +149,6 @@ const Summary = () => {
               isIncome={false}
               est_id={est_id}
             />
-            {/* <div className="container body d-flex row mt-3 mb-4 bg-light"> */}
             <div className="row mt-3">
               <div className="col bg-white shadow border p-3 mb-2 rounded-3 ">
                 <div className="d-flex row bg-white rounded-3 p-2">

@@ -30,7 +30,6 @@ const BudgetModal = (props) => {
         est_income: budget.est_income,
         est_expenditure: budget.est_expenditure,
       };
-      // console.log(body);
       // eslint-disable-next-line
       const response = await fetch(
         `http://localhost:5000/budget/${budget.est_id}`,
@@ -55,7 +54,6 @@ const BudgetModal = (props) => {
         est_income: budget.est_income,
         est_expenditure: budget.est_expenditure,
       };
-      // console.log(body);
       // eslint-disable-next-line
       const response = await fetch('http://localhost:5000/budget', {
         method: 'POST',
@@ -70,9 +68,6 @@ const BudgetModal = (props) => {
     }
   };
 
-  console.log('budget:', budget);
-  console.log('isEdit:', isEdit);
-  console.log(budget.est_income, budget.est_expenditure);
   return (
     <>
       <i className="bi bi-pencil-square text-dark" onClick={handleShow}></i>

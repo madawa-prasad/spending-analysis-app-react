@@ -20,7 +20,6 @@ const HomePage = () => {
   const [allTransactions, setAllTransactions] = useState([]);
 
   let est_id = year.value + '' + month.value;
-  //console.log('EST_ID:>>', est_id);
 
   //Fetching budget data
   const getBudget = async () => {
@@ -79,10 +78,6 @@ const HomePage = () => {
     return sum;
   };
 
-  // useEffect(() => {
-  //   console.log(month);
-  // }, [month]);
-
   return (
     <>
       <div className="bg-light">
@@ -124,7 +119,6 @@ const HomePage = () => {
                 <span className="title text-dark fs-5 fw-bold">
                   Planned budget
                 </span>
-                {/* <i className="bi bi-pencil-square text-dark"></i> */}
                 <BudgetModal
                   budget={budget}
                   isEdit={budget.length !== 0 && true}

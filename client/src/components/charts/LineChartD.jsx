@@ -20,8 +20,6 @@ const LineChartD = ({ data }) => {
     expense: value.expenses,
   }));
 
-  // console.log('DD:>>', dailySum);
-
   //Finalizing data for line chart
   const dayByDayArray = daysData.map((d) => {
     const y = dailySum.find((s) => s.day === parseInt(d.day));
@@ -33,15 +31,6 @@ const LineChartD = ({ data }) => {
     income: d ? d.income : 0,
     expense: d ? d.expense : 0,
   }));
-
-  // console.log('RFD:>>', dailySums);
-
-  // const joined = messages.map((m, ix) => {
-  //   return [m[0], users[ix]];
-  // });
-
-  // console.log('ChartDataE:>>', chartData(data)[2]);
-  // console.log('gdata:>>', dailySums);
 
   return (
     <ResponsiveContainer width="98%" height={400}>

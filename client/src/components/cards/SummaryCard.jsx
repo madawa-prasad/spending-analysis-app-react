@@ -45,8 +45,6 @@ const SummaryCard = ({ value, sum, isIncome, est_id }) => {
     return categorySum;
   };
 
-  // console.log('categorySums:>>', chartData(categorySums));
-
   useEffect(() => {
     getIncomePieChartData();
     getExpensePieChartData();
