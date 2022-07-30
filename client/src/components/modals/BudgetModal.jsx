@@ -9,6 +9,7 @@ const BudgetModal = (props) => {
   let isEdit = props.isEdit;
 
   const handleClose = () => setShow(false);
+
   const handleShow = () => {
     setBudget(props.budget);
     setShow(true);
@@ -30,7 +31,6 @@ const BudgetModal = (props) => {
         est_income: budget.est_income,
         est_expenditure: budget.est_expenditure,
       };
-      // console.log(body);
       // eslint-disable-next-line
       const response = await fetch(
         `http://localhost:5000/budget/${budget.est_id}`,
@@ -41,7 +41,7 @@ const BudgetModal = (props) => {
         }
       );
       setShow(false);
-      window.location = '/';
+      props.setBudget(budget);
     } catch (err) {
       console.error(err.message);
       setShow(false);
@@ -55,7 +55,6 @@ const BudgetModal = (props) => {
         est_income: budget.est_income,
         est_expenditure: budget.est_expenditure,
       };
-      // console.log(body);
       // eslint-disable-next-line
       const response = await fetch('http://localhost:5000/budget', {
         method: 'POST',
@@ -63,16 +62,13 @@ const BudgetModal = (props) => {
         body: JSON.stringify(body),
       });
       setShow(false);
-      window.location = '/';
+      setBudget(budget);
     } catch (err) {
       console.error(err.message);
       setShow(false);
     }
   };
 
-  console.log('budget:', budget);
-  console.log('isEdit:', isEdit);
-  console.log(budget.est_income, budget.est_expenditure);
   return (
     <>
       <i className="bi bi-pencil-square text-dark" onClick={handleShow}></i>

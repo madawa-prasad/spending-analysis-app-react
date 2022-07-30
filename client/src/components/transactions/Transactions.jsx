@@ -4,6 +4,11 @@ import Table from '../table/Table';
 import PieChartD from '../charts/PieChartD';
 import TransactionModal from '../modals/TransactionModal';
 import DropDownInput from '../inputs/DropDownInput';
+import {
+  getCategories,
+  getTransactions,
+  getPieChartData,
+} from '../../api/homePageAPICalls';
 
 const Transactions = ({ isIncome, est_id }) => {
   const [transactions, setTransactions] = useState([]);
@@ -13,21 +18,8 @@ const Transactions = ({ isIncome, est_id }) => {
 
   const color = isIncome ? '#6B89FF' : '#6B89FF';
 
-  //Fetching Categories
-  const getCategories = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/categories/${isIncome}`
-      );
-      const jsonData = await response.json();
-      setCategories(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
   useEffect(() => {
-    getCategories();
+    getCategories(isIncome, setCategories);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isIncome]);
 
@@ -40,20 +32,8 @@ const Transactions = ({ isIncome, est_id }) => {
   };
 
   //Fetching All Data
-  const getTransactions = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/${isIncome ? 'incomes' : 'expenses'}/${est_id}`
-      );
-      const jsonData = await response.json();
-      setTransactions(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
   useEffect(() => {
-    getTransactions();
+    getTransactions(est_id, isIncome, setTransactions);
     setFilter(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isIncome, est_id]);
@@ -69,37 +49,7 @@ const Transactions = ({ isIncome, est_id }) => {
     }
   };
 
-  //Delete specific record
-  const handleDelete = async (id) => {
-    try {
-      // eslint-disable-next-line no-unused-vars
-      const deleteTransaction = await fetch(
-        `http://localhost:5000/transactions/${id}`,
-        {
-          method: 'DELETE',
-        }
-      );
-      setTransactions(
-        transactions.filter((transaction) => transaction.tr_id !== id)
-      );
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
   //Fetch data for pieCharts
-  const getPieChartData = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/sumsC/${est_id}/${isIncome}`
-      );
-      const jsonData = await response.json();
-      setCategorySums(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
   //Modify pieChart data
   const chartData = (array) => {
     let categorySum = array?.map((item) => ({
@@ -110,13 +60,13 @@ const Transactions = ({ isIncome, est_id }) => {
   };
 
   useEffect(() => {
-    getPieChartData();
+    getPieChartData(est_id, isIncome, setCategorySums);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [est_id, isIncome]);
 
   //Update table data on adding and editing
   const addUpdateHandle = () => {
-    getTransactions();
+    getTransactions(est_id, isIncome, setTransactions);
   };
 
   return (
@@ -156,9 +106,11 @@ const Transactions = ({ isIncome, est_id }) => {
           <div className="col-7 p-0">
             <Table
               data={filter ? filteredData(transactions) : transactions}
-              deleteTransaction={handleDelete}
+              // deleteTransaction={handleDelete()}
               options={filterOptions(categories)}
               isIncome={isIncome}
+              transactions={transactions}
+              setTransactions={setTransactions}
             />
           </div>
           <div className="col-5 mt-2 mb-3 p-0 border bg-white shadow-sm rounded-3">

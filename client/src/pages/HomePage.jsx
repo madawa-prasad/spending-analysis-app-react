@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import BudgetCard from '../components/cards/BudgetCard';
 
 import Footer from '../components/footer/Footer';
 import DropDownInput from '../components/inputs/DropDownInput';
-import BudgetModal from '../components/modals/BudgetModal';
 import Navbar from '../components/navbar/Navbar';
 import Transactions from '../components/transactions/Transactions';
 import { monthOptions, yearOptions } from '../data/dropDownOptions';
@@ -16,79 +16,15 @@ const HomePage = () => {
   const [month, setMonth] = useState(monthName);
   const [year, setYear] = useState(yearOptions[0]);
   const [isIncome, setIsIncome] = useState(true);
-  const [budget, setBudget] = useState([]);
-  const [allTransactions, setAllTransactions] = useState([]);
 
   let est_id = year.value + '' + month.value;
-  //console.log('EST_ID:>>', est_id);
-
-  //Fetching budget data
-  const getBudget = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/budget/${est_id}`);
-      const jsonData = await response.json();
-      setBudget(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
-  //Fetch all transactions
-  const getAllTransactions = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/transactions/${est_id}`
-      );
-      const jsonData = await response.json();
-      setAllTransactions(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
-  useEffect(() => {
-    // getBudget();
-    getAllTransactions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isIncome, month, year]);
-
-  useEffect(() => {
-    getBudget();
-    return () => {
-      setBudget([]);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [month, year]);
-
-  //Getting SUM incomes//
-  //Filtering incomes and expenses
-  const filteredTransactions = (arr, isIncome) => {
-    const filteredTransactions = arr.filter((transaction) => {
-      return transaction.tr_is_income === isIncome;
-    });
-    return filteredTransactions;
-  };
-
-  const incomesArr = filteredTransactions(allTransactions, true);
-  const expensesArr = filteredTransactions(allTransactions, false);
-
-  const transactionsSum = (transactionsArray) => {
-    const sum = transactionsArray.reduce((a, b) => {
-      return a + Number(b.tr_amount);
-    }, 0);
-    return sum;
-  };
-
-  // useEffect(() => {
-  //   console.log(month);
-  // }, [month]);
 
   return (
     <>
       <div className="bg-light">
         <Navbar />
         <section className="container top mb-4 bg-light">
-          <div className="row d-flex flex-row justify-content-between mb-3 ms-4 me-4">
+          <div className="row d-flex flex-row justify-content-between mb-3 ms-4 me-0">
             <div className="d-flex col justify-content-start">
               <DropDownInput
                 options={yearOptions}
@@ -106,11 +42,11 @@ const HomePage = () => {
                 value={month}
                 onChange={setMonth}
               />
-              <div className="d-flex col ms-5 justify-content-end">
+              <div className="d-flex col justify-content-end">
                 <Link to="/summary">
                   <button
                     type="button"
-                    className="btn btn-outline-primary mt-2 ms-5"
+                    className="btn btn-outline-primary mt-2"
                   >
                     View Summary
                   </button>
@@ -119,72 +55,34 @@ const HomePage = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col bg-white border shadow mt-2 mb-2 ms-5 me-3 rounded-3 expected ">
-              <div className="d-flex flex-row justify-content-between">
-                <span className="title text-dark fs-5 fw-bold">
-                  Planned budget
-                </span>
-                {/* <i className="bi bi-pencil-square text-dark"></i> */}
-                <BudgetModal
-                  budget={budget}
-                  isEdit={budget.length !== 0 && true}
-                />
-              </div>
-              <div className="d-flex flex-row justify-content-around mb-3">
-                <div className="d-flex flex-column text-center">
-                  <span className="text-dark">INCOME</span>
-                  <span className="text-dark fs-1 fw-bold">
-                    $ {budget.length === 0 ? 0 : budget.est_income}
-                  </span>
-                </div>
-                <div className="border-end"></div>
-                <div className="d-flex flex-column text-center">
-                  <span className="text-dark">EXPENDITURE</span>
-                  <span className="text-dark fs-1 fw-bold">
-                    $ {budget.length === 0 ? 0 : budget.est_expenditure}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="actual text-decoration-none col bg-white border shadow mt-2 mb-2 ms-3 me-5 rounded-3">
-              <div className="d-flex flex-row justify-content-between">
-                <span className="title text-dark fs-5 fw-bold">
-                  Actual budget
-                </span>
-              </div>
-              <div className="d-flex flex-row justify-content-around mt-2 mb-3">
-                <div className="d-flex flex-column text-center">
-                  <span className="text-dark">INCOME</span>
-                  <span className="text-dark fs-1 fw-bold">
-                    $ {transactionsSum(incomesArr).toFixed(2)}
-                  </span>
-                </div>
-                <div className="border-end"></div>
-                <div className="d-flex flex-column text-center">
-                  <span className="text-dark">EXPENDITURE</span>
-                  <span className="text-dark fs-1 fw-bold">
-                    $ {transactionsSum(expensesArr).toFixed(2)}
-                  </span>
-                </div>
-              </div>
-            </div>
+            <BudgetCard
+              month={month}
+              year={year}
+              est_id={est_id}
+              isActual={false}
+              isIncome={isIncome}
+            />
+            <BudgetCard
+              month={month}
+              year={year}
+              est_id={est_id}
+              isActual={true}
+              isIncome={isIncome}
+            />
           </div>
         </section>
         <section className="container body mb-4">
           <div className="row">
-            <div className="col bg-light bg-white shadow p-3 mb-2 ms-5 me-5 rounded-3 ">
+            <div className="col bg-light bg-white shadow p-3 mb-2 ms-5 me-3 rounded-3 ">
               <div className="d-flex row bg-light shadow-sm ms-2 me-2 mt-2 mb-4 rounded-3 p-2">
                 <ul className="nav nav-pills border border-primary rounded-3">
                   <li className="nav-item col-6" role="presentation">
                     <button
                       className="nav-link col-12 ps-5 pe-5 active"
-                      id="home-tab"
+                      id="incomes-tab"
                       data-bs-toggle="tab"
-                      data-bs-target="#home"
                       type="button"
                       role="tab"
-                      aria-controls="home"
-                      aria-selected="true"
                       onClick={() => setIsIncome(true)}
                     >
                       INCOMES
@@ -193,13 +91,10 @@ const HomePage = () => {
                   <li className="nav-item col-6" role="presentation">
                     <button
                       className="nav-link ms-3 col-12 rounded-3 ps-5 pe-5 "
-                      id="profile-tab"
+                      id="expenses-tab"
                       data-bs-toggle="tab"
-                      data-bs-target="#profile"
                       type="button"
                       role="tab"
-                      aria-controls="profile"
-                      aria-selected="false"
                       onClick={() => setIsIncome(false)}
                     >
                       EXPENSES

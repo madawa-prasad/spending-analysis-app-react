@@ -84,12 +84,11 @@ const PieChartD = (props) => {
   );
 
   const data = props.data;
-  // console.log('dataPC:>>', data);
 
   return (
     <div className="pie-chart rounded-3">
-      <p className="title text-dark fw-bold">{props.title}</p>
-      <div className="d-flex flex-row justify-content-around mb-3">
+      <p className="title text-dark fw-bold mt-3">{props.title}</p>
+      <div className="d-flex flex-row mb-3">
         <PieChart width={500} height={335}>
           <Pie
             activeIndex={activeIndex}
