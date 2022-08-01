@@ -38,14 +38,22 @@ const Transactions = ({ isIncome, est_id }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isIncome, est_id]);
 
-  //Filtered data based on category
+  ///Data for Table
+  //Sorting function
+  const sortByDate = (arr) =>
+    arr.sort(function (a, b) {
+      return new Date(a.tr_date) - new Date(b.tr_date);
+    });
+
+  //Filtering function
   const filteredData = (transactionsData) => {
-    let tableData;
     if (filter) {
-      tableData = transactionsData.filter(
+      let filteredData = transactionsData.filter(
         (transaction) => transaction.tr_category === filter.value
       );
-      return tableData;
+      return sortByDate(filteredData);
+    } else {
+      return sortByDate(transactionsData);
     }
   };
 
@@ -65,8 +73,8 @@ const Transactions = ({ isIncome, est_id }) => {
   }, [est_id, isIncome]);
 
   //Update table data on adding and editing
-  const addUpdateHandle = () => {
-    getTransactions(est_id, isIncome, setTransactions);
+  const addUpdateHandle = (newData) => {
+    setTransactions((prevState) => [...prevState, newData]);
   };
 
   return (
@@ -98,14 +106,14 @@ const Transactions = ({ isIncome, est_id }) => {
             <TransactionModal
               categories={filterOptions(categories)}
               isIncome={isIncome}
-              setTransactions={addUpdateHandle}
+              addUpdateHandle={addUpdateHandle}
             />
           </div>
         </div>
         <div className="row p-0">
           <div className="col-7 p-0">
             <Table
-              data={filter ? filteredData(transactions) : transactions}
+              data={filteredData(transactions)}
               // deleteTransaction={handleDelete()}
               options={filterOptions(categories)}
               isIncome={isIncome}
