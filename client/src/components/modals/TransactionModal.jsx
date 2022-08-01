@@ -15,7 +15,7 @@ const TransactionModal = (props) => {
   const categories = props.categories;
   const isEdit = props.isEdit;
   const isIncome = props.isIncome;
-  const setTransactions = props.setTransactions;
+  const addUpdateHandle = props.addUpdateHandle;
 
   const handleClose = () => {
     setShow(false);
@@ -136,18 +136,12 @@ const TransactionModal = (props) => {
               variant="primary"
               onClick={() => {
                 isEdit
-                  ? handleEdit(
-                      values,
-                      category,
-                      transaction,
-                      setShow,
-                      setTransactions
-                    )
+                  ? handleEdit(values, category, transaction, setShow)
                   : handleNewTransaction(
                       values,
                       category,
                       setShow,
-                      setTransactions,
+                      addUpdateHandle,
                       isIncome
                     );
               }}

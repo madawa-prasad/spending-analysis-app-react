@@ -116,9 +116,20 @@ const handleNewTransaction = async (
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       }
-    );
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setTransactions(data);
+        console.log(data);
+      });
+
     setShow(false);
-    setTransactions();
+
+    // Promise.all([response.json()]).then((object) =>
+    //   console.log(object[0]['0'])
+    // );
+    // console.log('response:>>', response.json());
+    // setTransactions();
   } catch (err) {
     console.error(err.message);
     setShow(false);
