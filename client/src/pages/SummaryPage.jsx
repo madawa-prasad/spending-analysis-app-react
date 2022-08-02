@@ -15,7 +15,7 @@ import {
   getAllTransactions,
 } from '../api/summaryPageAPICalls';
 
-const Summary = () => {
+const SummaryPage = () => {
   let d = new Date();
   let m = monthOptions[d.getMonth()];
 
@@ -138,4 +138,4 @@ const Summary = () => {
   );
 };
 
-export default Summary;
+export default SummaryPage;
