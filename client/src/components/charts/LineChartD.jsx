@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   LineChart,
   Line,
@@ -10,9 +11,13 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { daysData } from '../../data/mockDays';
+import { SummaryContainer } from '../../containers/summaryStore';
 
 //Generating chart data array
-const LineChartD = ({ data }) => {
+const LineChartD = () => {
+  let chart = SummaryContainer.useContainer();
+  const data = chart.sums;
+
   //Refactoring data for line chart
   let dailySum = data?.map((value) => ({
     day: parseInt(value.tr_date.slice(8, 10)) + 1,

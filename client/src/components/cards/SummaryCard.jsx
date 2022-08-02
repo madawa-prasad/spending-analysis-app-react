@@ -6,8 +6,16 @@ import {
   getIncomePieChartData,
   getExpensePieChartData,
 } from '../../api/summaryPageAPICalls';
+import { SummaryContainer } from '../../containers/summaryStore';
 
-const SummaryCard = ({ value, sum, isIncome, est_id }) => {
+const SummaryCard = ({ isIncome }) => {
+  let card = SummaryContainer.useContainer();
+  const sum = card.transactionsSum(
+    isIncome ? card.incomesArr : card.expensesArr
+  );
+  const value = card.budget[isIncome ? 'est_income' : 'est_expenditure'];
+  const est_id = card.est_id;
+
   const percentage = ((sum / value) * 100).toFixed(2);
   const difference = sum - value;
   const color = isIncome ? '#6B89FF' : '#FF7878';
