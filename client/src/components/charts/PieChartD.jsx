@@ -86,23 +86,25 @@ const PieChartD = (props) => {
   const data = props.data;
 
   return (
-    <div className="pie-chart rounded-3">
-      <p className="title text-dark fw-bold mt-3">{props.title}</p>
-      <div className="d-flex flex-row mb-3">
-        <PieChart width={500} height={335}>
-          <Pie
-            activeIndex={activeIndex}
-            activeShape={renderActiveShape}
-            data={data}
-            cx={250}
-            cy={150}
-            innerRadius={60}
-            outerRadius={80}
-            fill={props.color}
-            dataKey="value"
-            onMouseEnter={onPieEnter}
-          />
-        </PieChart>
+    <div className="col mt-2 mb-3 p-0 border bg-white shadow-sm rounded-3">
+      <div className="pie-chart mt-5 rounded-3">
+        <p className="title text-dark fw-bold mt-3">{props.title}</p>
+        <div className="d-flex flex-row justify-content-center mb-3">
+          <PieChart width={500} height={335}>
+            <Pie
+              activeIndex={activeIndex}
+              activeShape={renderActiveShape}
+              data={data}
+              cx={250}
+              cy={150}
+              innerRadius={60}
+              outerRadius={80}
+              fill={props.color}
+              dataKey="value"
+              onMouseEnter={onPieEnter}
+            />
+          </PieChart>
+        </div>
       </div>
     </div>
   );
