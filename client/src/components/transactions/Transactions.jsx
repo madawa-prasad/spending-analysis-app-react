@@ -110,22 +110,22 @@ const Transactions = ({ isIncome, est_id }) => {
             />
           </div>
         </div>
-        <div className="row p-0">
-          <div className="col-7 p-0">
-            <Table
-              data={filteredData(transactions)}
-              // deleteTransaction={handleDelete()}
-              options={filterOptions(categories)}
-              isIncome={isIncome}
-              transactions={transactions}
-              setTransactions={setTransactions}
-            />
-          </div>
-          <div className="col-5 mt-2 mb-3 p-0 border bg-white shadow-sm rounded-3">
-            <div className="mt-5">
-              <PieChartD data={chartData(categorySums)} color={color} />
-            </div>
-          </div>
+        <div className="row d-flex p-0">
+          {/* <div className="col-7 p-0"> */}
+          <Table
+            data={filteredData(transactions)}
+            // deleteTransaction={handleDelete()}
+            options={filterOptions(categories)}
+            isIncome={isIncome}
+            transactions={transactions}
+            setTransactions={setTransactions}
+          />
+          {/* </div> */}
+          {/* <div className="col-5 mt-2 mb-3 p-0 border bg-white shadow-sm rounded-3"> */}
+          {/* <div className="mt-5"> */}
+          <PieChartD data={chartData(categorySums)} color={color} />
+          {/* </div> */}
+          {/* </div> */}
         </div>
       </div>
     </>
