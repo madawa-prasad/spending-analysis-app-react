@@ -55,6 +55,11 @@ const TransactionModal = (props) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
+  //Setting default date as current date
+  var currDate = new Date();
+  currDate.setDate(currDate.getDate());
+  var date = currDate.toISOString().substring(0, 10);
+
   return (
     <>
       {isEdit ? (
@@ -107,7 +112,8 @@ const TransactionModal = (props) => {
             id="date"
             className="form-control"
             name="tr_date"
-            value={generateDateString(values.tr_date)}
+            defaultValue={date}
+            value={isEdit ? generateDateString(values.tr_date) : null}
             onChange={changeHandler}
             placeholder="Select date"
             required
