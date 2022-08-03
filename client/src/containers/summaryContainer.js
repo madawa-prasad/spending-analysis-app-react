@@ -18,11 +18,11 @@ const useSummary = () => {
   const [allTransactions, setAllTransactions] = useState([]);
   const [sums, setSums] = useState([]);
 
-  let est_id = year.value + '' + month.value;
+  let estId = year.value + '' + month.value;
 
   useEffect(() => {
-    getBudget(est_id, setBudget);
-    getSums(est_id, setSums);
+    getBudget(estId, setBudget);
+    getSums(estId, setSums);
     return () => {
       setBudget([]);
     };
@@ -31,7 +31,7 @@ const useSummary = () => {
 
   //Fetch all transactions
   useEffect(() => {
-    getAllTransactions(est_id, setAllTransactions);
+    getAllTransactions(estId, setAllTransactions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [month, year]);
 
@@ -44,6 +44,7 @@ const useSummary = () => {
     return filteredTransactions;
   };
 
+  //Getting summations
   const incomesArr = filteredTransactions(allTransactions, true);
   const expensesArr = filteredTransactions(allTransactions, false);
 
@@ -54,6 +55,9 @@ const useSummary = () => {
     return sum;
   };
 
+  const incomesSum = transactionsSum(incomesArr);
+  const expensesSum = transactionsSum(expensesArr);
+
   return {
     d,
     m,
@@ -62,12 +66,13 @@ const useSummary = () => {
     budget,
     allTransactions,
     sums,
-    est_id,
+    estId,
     incomesArr,
     expensesArr,
+    incomesSum,
+    expensesSum,
     setMonth,
     setYear,
-    transactionsSum,
   };
 };
 export const SummaryContainer = createContainer(useSummary);

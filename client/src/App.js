@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import SummaryPage from './pages/SummaryPage';
-import { SummaryContainer } from './containers/summaryStore';
+import { SummaryContainer } from './containers/summaryContainer';
 
 function App() {
   return (

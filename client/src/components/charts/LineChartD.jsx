@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { daysData } from '../../data/mockDays';
-import { SummaryContainer } from '../../containers/summaryStore';
+import { SummaryContainer } from '../../containers/summaryContainer';
 
 //Generating chart data array
 const LineChartD = () => {

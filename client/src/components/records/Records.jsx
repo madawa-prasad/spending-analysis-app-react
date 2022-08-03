@@ -1,13 +1,11 @@
 import React from 'react';
 
 import generatePDF from '../../services/reportGenerator';
-import { SummaryContainer } from '../../containers/summaryStore';
+import { SummaryContainer } from '../../containers/summaryContainer';
 
 const Records = () => {
-  let pdf = SummaryContainer.useContainer();
-  const transactions = pdf.allTransactions;
-  const sumIncomes = pdf.transactionsSum(pdf.incomesArr);
-  const sumExpenses = pdf.transactionsSum(pdf.expensesArr);
+  let { allTransactions, incomesSum, expensesSum } =
+    SummaryContainer.useContainer();
 
   return (
     <div>
@@ -16,7 +14,7 @@ const Records = () => {
           <button
             class="btn btn-primary"
             onClick={() =>
-              generatePDF({ transactions, sumIncomes, sumExpenses })
+              generatePDF({ allTransactions, incomesSum, expensesSum })
             }
           >
             Download PDF

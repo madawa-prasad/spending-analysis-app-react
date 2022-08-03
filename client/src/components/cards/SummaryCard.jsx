@@ -6,15 +6,15 @@ import {
   getIncomePieChartData,
   getExpensePieChartData,
 } from '../../api/summaryPageAPICalls';
-import { SummaryContainer } from '../../containers/summaryStore';
+import { SummaryContainer } from '../../containers/summaryContainer';
 
 const SummaryCard = ({ isIncome }) => {
-  let card = SummaryContainer.useContainer();
-  const sum = card.transactionsSum(
-    isIncome ? card.incomesArr : card.expensesArr
-  );
-  const value = card.budget[isIncome ? 'est_income' : 'est_expenditure'];
-  const est_id = card.est_id;
+  const { budget, estId, incomesSum, expensesSum } =
+    SummaryContainer.useContainer();
+
+  const sum = isIncome ? incomesSum : expensesSum;
+
+  const value = budget[isIncome ? 'est_income' : 'est_expenditure'];
 
   const percentage = ((sum / value) * 100).toFixed(2);
   const difference = sum - value;
@@ -25,10 +25,10 @@ const SummaryCard = ({ isIncome }) => {
 
   //Fetch data for pieCharts
   useEffect(() => {
-    getIncomePieChartData(est_id, setIncomeCategorySums);
-    getExpensePieChartData(est_id, setExpenseCategorySums);
+    getIncomePieChartData(estId, setIncomeCategorySums);
+    getExpensePieChartData(estId, setExpenseCategorySums);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [est_id]);
+  }, [estId]);
 
   //Modify pieChart data
   const pieChartData = (array) => {
