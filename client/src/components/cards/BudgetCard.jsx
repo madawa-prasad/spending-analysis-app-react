@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 
 import BudgetModal from '../modals/BudgetModal';
 import { getBudget, getAllTransactions } from '../../api/homePageAPICalls';
+import { HomeContainer } from '../../containers/homeContainer';
 
-const BudgetCard = ({ month, year, est_id, isActual, isIncome }) => {
+const BudgetCard = ({ isActual }) => {
+  const { year, month, estId, isIncome } = HomeContainer.useContainer();
+
   const [budget, setBudget] = useState([]);
   const [allTransactions, setAllTransactions] = useState([]);
 
   //Fetch budget
   useEffect(() => {
-    getBudget(est_id, setBudget);
+    getBudget(estId, setBudget);
     return () => {
       setBudget([]);
     };
@@ -18,7 +21,7 @@ const BudgetCard = ({ month, year, est_id, isActual, isIncome }) => {
 
   //Fetch all transactions
   useEffect(() => {
-    getAllTransactions(est_id, setAllTransactions);
+    getAllTransactions(estId, setAllTransactions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isIncome, month, year]);
 

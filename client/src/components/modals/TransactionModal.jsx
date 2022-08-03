@@ -112,8 +112,7 @@ const TransactionModal = (props) => {
             id="date"
             className="form-control"
             name="tr_date"
-            defaultValue={date}
-            value={isEdit ? generateDateString(values.tr_date) : null}
+            defaultValue={isEdit ? generateDateString(values.tr_date) : date}
             onChange={changeHandler}
             placeholder="Select date"
             required

@@ -1,81 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import Table from '../table/Table';
 import PieChartD from '../charts/PieChartD';
 import TransactionModal from '../modals/TransactionModal';
 import DropDownInput from '../inputs/DropDownInput';
-import {
-  getCategories,
-  getTransactions,
-  getPieChartData,
-} from '../../api/homePageAPICalls';
+import { HomeContainer } from '../../containers/homeContainer';
 
-const Transactions = ({ isIncome, est_id }) => {
-  const [transactions, setTransactions] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [filter, setFilter] = useState('');
-  const [categorySums, setCategorySums] = useState([]);
-
-  const color = isIncome ? '#6B89FF' : '#6B89FF';
-
-  useEffect(() => {
-    getCategories(isIncome, setCategories);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isIncome]);
-
-  const filterOptions = (array) => {
-    let options = array?.map((value) => ({
-      value: value.cat_id,
-      label: value.cat_title,
-    }));
-    return options;
-  };
-
-  //Fetching All Data
-  useEffect(() => {
-    getTransactions(est_id, isIncome, setTransactions);
-    setFilter(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isIncome, est_id]);
-
-  ///Data for Table
-  //Sorting function
-  const sortByDate = (arr) =>
-    arr.sort(function (a, b) {
-      return new Date(a.tr_date) - new Date(b.tr_date);
-    });
-
-  //Filtering function
-  const filteredData = (transactionsData) => {
-    if (filter) {
-      let filteredData = transactionsData.filter(
-        (transaction) => transaction.tr_category === filter.value
-      );
-      return sortByDate(filteredData);
-    } else {
-      return sortByDate(transactionsData);
-    }
-  };
-
-  //Fetch data for pieCharts
-  //Modify pieChart data
-  const chartData = (array) => {
-    let categorySum = array?.map((item) => ({
-      name: item.cat_title,
-      value: parseFloat(item.cat_sum),
-    }));
-    return categorySum;
-  };
-
-  useEffect(() => {
-    getPieChartData(est_id, isIncome, setCategorySums);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [est_id, isIncome]);
-
-  //Update table data on adding and editing
-  const addUpdateHandle = (newData) => {
-    setTransactions((prevState) => [...prevState, newData]);
-  };
+const Transactions = () => {
+  const {
+    categoryOptions,
+    filter,
+    color,
+    pieChartData,
+    isIncome,
+    setFilter,
+    addUpdateHandle,
+  } = HomeContainer.useContainer();
 
   return (
     <>
@@ -87,7 +27,7 @@ const Transactions = ({ isIncome, est_id }) => {
                 Filter
               </label>
               <DropDownInput
-                options={filterOptions(categories)}
+                options={categoryOptions}
                 className="col-5 ms-0"
                 placeholder="Select Category"
                 name="filter"
@@ -104,28 +44,15 @@ const Transactions = ({ isIncome, est_id }) => {
           </div>
           <div className="col text-white text-end p-0">
             <TransactionModal
-              categories={filterOptions(categories)}
+              categories={categoryOptions}
               isIncome={isIncome}
               addUpdateHandle={addUpdateHandle}
             />
           </div>
         </div>
         <div className="row d-flex p-0">
-          {/* <div className="col-7 p-0"> */}
-          <Table
-            data={filteredData(transactions)}
-            // deleteTransaction={handleDelete()}
-            options={filterOptions(categories)}
-            isIncome={isIncome}
-            transactions={transactions}
-            setTransactions={setTransactions}
-          />
-          {/* </div> */}
-          {/* <div className="col-5 mt-2 mb-3 p-0 border bg-white shadow-sm rounded-3"> */}
-          {/* <div className="mt-5"> */}
-          <PieChartD data={chartData(categorySums)} color={color} />
-          {/* </div> */}
-          {/* </div> */}
+          <Table />
+          <PieChartD data={pieChartData} color={color} />
         </div>
       </div>
     </>
