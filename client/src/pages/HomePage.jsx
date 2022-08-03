@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import BudgetCard from '../components/cards/BudgetCard';
 
@@ -7,17 +7,11 @@ import DropDownInput from '../components/inputs/DropDownInput';
 import Navbar from '../components/navbar/Navbar';
 import Transactions from '../components/transactions/Transactions';
 import { monthOptions, yearOptions } from '../data/dropDownOptions';
+import { HomeContainer } from '../containers/homeContainer';
 
 const HomePage = () => {
-  let d = new Date();
-  let m = d.getMonth() + 1;
-  let monthName = monthOptions[m - 1];
-
-  const [month, setMonth] = useState(monthName);
-  const [year, setYear] = useState(yearOptions[0]);
-  const [isIncome, setIsIncome] = useState(true);
-
-  let est_id = year.value + '' + month.value;
+  const { year, month, estId, isIncome, setIsIncome, setMonth, setYear } =
+    HomeContainer.useContainer();
 
   return (
     <>
@@ -55,20 +49,8 @@ const HomePage = () => {
             </div>
           </div>
           <div className="row">
-            <BudgetCard
-              month={month}
-              year={year}
-              est_id={est_id}
-              isActual={false}
-              isIncome={isIncome}
-            />
-            <BudgetCard
-              month={month}
-              year={year}
-              est_id={est_id}
-              isActual={true}
-              isIncome={isIncome}
-            />
+            <BudgetCard isActual={false} />
+            <BudgetCard isActual={true} />
           </div>
         </section>
         <section className="container body mb-4">
@@ -103,7 +85,7 @@ const HomePage = () => {
                 </ul>
               </div>
               <div className="row bg-light shadow-sm d-flex mt-2 mb-2 ms-2 me-2 rounded-3">
-                <Transactions isIncome={isIncome} est_id={est_id} />
+                <Transactions isIncome={isIncome} est_id={estId} />
               </div>
             </div>
           </div>

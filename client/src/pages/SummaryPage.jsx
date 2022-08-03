@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import LineChartD from '../components/charts/LineChartD';
@@ -9,15 +8,10 @@ import { monthOptions, yearOptions } from '../data/dropDownOptions';
 import Navbar from '../components/navbar/Navbar';
 import Records from '../components/records/Records';
 import SummaryCard from '../components/cards/SummaryCard';
-// import {
-//   getBudget,
-//   getSums,
-//   getAllTransactions,
-// } from '../api/summaryPageAPICalls';
-import { SummaryContainer } from '../containers/summaryStore';
+import { SummaryContainer } from '../containers/summaryContainer';
 
 const SummaryPage = () => {
-  const summary = SummaryContainer.useContainer();
+  const { m, month, year, setMonth, setYear } = SummaryContainer.useContainer();
 
   return (
     <>
@@ -32,9 +26,7 @@ const SummaryPage = () => {
         </Link>
         <div className="container bg-light">
           <div className="d-flex col ms-3 justify-content-start mt-2">
-            <h5 className="row fs-4">
-              Budget Summary{` of ${summary.month.label}`}
-            </h5>
+            <h5 className="row fs-4">Budget Summary{` of ${month.label}`}</h5>
           </div>
           <div className="row d-flex justify-content-between mb-0">
             <div className="d-flex col-6 ms-1 justify-content-start align-items-center">
@@ -43,17 +35,17 @@ const SummaryPage = () => {
                 className="col-4 mt-2"
                 placeholder="Select Year"
                 name="year"
-                value={summary.year}
-                onChange={summary.setYear}
+                value={year}
+                onChange={setYear}
               />
               <DropDownInput
                 options={monthOptions}
                 className="col-4 ms-3 mt-2"
                 placeholder="Select Month"
                 name="month"
-                value={summary.month}
-                defaultValue={summary.m}
-                onChange={summary.setMonth}
+                value={month}
+                defaultValue={m}
+                onChange={setMonth}
               />
               <i
                 className="bi bi-arrow-clockwise fs-4 col-1 btn text-center"
@@ -70,9 +62,7 @@ const SummaryPage = () => {
             <div className="row mt-3">
               <div className="col bg-white shadow border p-3 mb-2 rounded-3 ">
                 <div className="d-flex row bg-white rounded-3 p-2">
-                  <p className="text-dark">
-                    {summary.month.label} Incomes & Expenses
-                  </p>
+                  <p className="text-dark">{month.label} Incomes & Expenses</p>
                   <LineChartD className="col-12 d-flex " />
                 </div>
               </div>

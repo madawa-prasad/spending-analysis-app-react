@@ -3,10 +3,20 @@ import React from 'react';
 import DeleteConfirmation from '../modals/DeleteConfirmation';
 import TransactionModal from '../modals/TransactionModal';
 import { handleDelete } from '../../api/homePageAPICalls';
+import { HomeContainer } from '../../containers/homeContainer';
 
 import './table.css';
 
-const Table = ({ data, options, isIncome, transactions, setTransactions }) => {
+const Table = () => {
+  //Getting states and data from HomeContainer
+  const {
+    transactions,
+    categoryOptions,
+    tableData,
+    isIncome,
+    setTransactions,
+  } = HomeContainer.useContainer();
+
   //Recording month and date in table
   const getMonthDate = (d) => {
     var date = new Date(d);
@@ -47,7 +57,7 @@ const Table = ({ data, options, isIncome, transactions, setTransactions }) => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((transaction, index) => (
+                {tableData.map((transaction, index) => (
                   <tr key={index}>
                     <td className="">
                       {transaction.tr_description.length > 25
@@ -63,7 +73,7 @@ const Table = ({ data, options, isIncome, transactions, setTransactions }) => {
                       <TransactionModal
                         isEdit={true}
                         transaction={transaction}
-                        categories={options}
+                        categories={categoryOptions}
                         isIncome={isIncome}
                       />
                     </td>
