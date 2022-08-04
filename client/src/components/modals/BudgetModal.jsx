@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import axios from 'axios';
 
 const BudgetModal = (props) => {
   const [show, setShow] = useState(false);
@@ -32,14 +33,7 @@ const BudgetModal = (props) => {
         est_expenditure: budget.est_expenditure,
       };
       // eslint-disable-next-line
-      const response = await fetch(
-        `http://localhost:5000/budget/${budget.est_id}`,
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        }
-      );
+      await axios.put(`http://localhost:5000/budget/${budget.est_id}`, body);
       setShow(false);
       props.setBudget(budget);
     } catch (err) {
@@ -56,16 +50,12 @@ const BudgetModal = (props) => {
         est_expenditure: budget.est_expenditure,
       };
       // eslint-disable-next-line
-      const response = await fetch('http://localhost:5000/budget', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
+      const response = await axios.post('http://localhost:5000/budget', body);
       setShow(false);
-      setBudget(budget);
+      setBudget(response.data);
     } catch (err) {
-      console.error(err.message);
       setShow(false);
+      console.error(err.message);
     }
   };
 

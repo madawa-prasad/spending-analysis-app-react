@@ -1,9 +1,11 @@
+import axios from 'axios';
+
 //Fetching budget data
 const getBudget = async (est_id, setBudget) => {
   try {
-    const response = await fetch(`http://localhost:5000/budget/${est_id}`);
-    const jsonData = await response.json();
-    setBudget(jsonData);
+    const response = await axios.get(`http://localhost:5000/budget/${est_id}`);
+    const { data } = response;
+    setBudget(data);
   } catch (err) {
     console.error(err.message);
   }
@@ -12,9 +14,9 @@ const getBudget = async (est_id, setBudget) => {
 //Fetching sums data
 const getSums = async (est_id, setSums) => {
   try {
-    const response = await fetch(`http://localhost:5000/sumsD/${est_id}`);
-    const jsonData = await response.json();
-    setSums(jsonData);
+    const response = await axios.get(`http://localhost:5000/sumsD/${est_id}`);
+    const { data } = response;
+    setSums(data);
   } catch (err) {
     console.error(err.message);
   }
@@ -22,11 +24,11 @@ const getSums = async (est_id, setSums) => {
 
 const getAllTransactions = async (est_id, setAllTransactions) => {
   try {
-    const response = await fetch(
+    const response = await axios.get(
       `http://localhost:5000/transactions/${est_id}`
     );
-    const jsonData = await response.json();
-    setAllTransactions(jsonData);
+    const { data } = response;
+    setAllTransactions(data);
   } catch (err) {
     console.error(err.message);
   }
@@ -36,9 +38,11 @@ const getAllTransactions = async (est_id, setAllTransactions) => {
 //Incomes
 const getIncomePieChartData = async (est_id, setIncomeCategorySums) => {
   try {
-    const response = await fetch(`http://localhost:5000/sumsC/${est_id}/true`);
-    const jsonData = await response.json();
-    setIncomeCategorySums(jsonData);
+    const response = await axios.get(
+      `http://localhost:5000/sumsC/${est_id}/true`
+    );
+    const { data } = response;
+    setIncomeCategorySums(data);
   } catch (err) {
     console.error(err.message);
   }
@@ -47,9 +51,11 @@ const getIncomePieChartData = async (est_id, setIncomeCategorySums) => {
 //Expenses
 const getExpensePieChartData = async (est_id, setExpenseCategorySums) => {
   try {
-    const response = await fetch(`http://localhost:5000/sumsC/${est_id}/false`);
-    const jsonData = await response.json();
-    setExpenseCategorySums(jsonData);
+    const response = await axios.get(
+      `http://localhost:5000/sumsC/${est_id}/false`
+    );
+    const { data } = response;
+    setExpenseCategorySums(data);
   } catch (err) {
     console.error(err.message);
   }

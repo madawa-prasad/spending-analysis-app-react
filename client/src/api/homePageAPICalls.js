@@ -1,9 +1,11 @@
+import axios from 'axios';
+
 //Fetching budget data
 const getBudget = async (est_id, setBudget) => {
   try {
-    const response = await fetch(`http://localhost:5000/budget/${est_id}`);
-    const jsonData = await response.json();
-    setBudget(jsonData);
+    const response = await axios.get(`http://localhost:5000/budget/${est_id}`);
+    const { data } = response;
+    setBudget(data);
   } catch (err) {
     console.error(err.message);
   }
@@ -12,11 +14,11 @@ const getBudget = async (est_id, setBudget) => {
 //Fetch all transactions
 const getAllTransactions = async (est_id, setAllTransactions) => {
   try {
-    const response = await fetch(
+    const response = await axios.get(
       `http://localhost:5000/transactions/${est_id}`
     );
-    const jsonData = await response.json();
-    setAllTransactions(jsonData);
+    const { data } = response;
+    setAllTransactions(data);
   } catch (err) {
     console.error(err.message);
   }
@@ -25,24 +27,24 @@ const getAllTransactions = async (est_id, setAllTransactions) => {
 //Fetching Categories
 const getCategories = async (isIncome, setCategories) => {
   try {
-    const response = await fetch(
+    const response = await axios.get(
       `http://localhost:5000/categories/${isIncome}`
     );
-    const jsonData = await response.json();
-    setCategories(jsonData);
+    const { data } = response;
+    setCategories(data);
   } catch (err) {
     console.error(err.message);
   }
 };
 
-//Fetching All Data
+//Fetching incomes or expenses
 const getTransactions = async (est_id, isIncome, setTransactions) => {
   try {
-    const response = await fetch(
+    const response = await axios.get(
       `http://localhost:5000/${isIncome ? 'incomes' : 'expenses'}/${est_id}`
     );
-    const jsonData = await response.json();
-    setTransactions(jsonData);
+    const { data } = response;
+    setTransactions(data);
   } catch (err) {
     console.error(err.message);
   }
@@ -51,24 +53,18 @@ const getTransactions = async (est_id, isIncome, setTransactions) => {
 //Fetch data for pieCharts
 const getPieChartData = async (est_id, isIncome, setCategorySums) => {
   try {
-    const response = await fetch(
+    const response = await axios.get(
       `http://localhost:5000/sumsC/${est_id}/${isIncome}`
     );
-    const jsonData = await response.json();
-    setCategorySums(jsonData);
+    const { data } = response;
+    setCategorySums(data);
   } catch (err) {
     console.error(err.message);
   }
 };
 
 //Editing existing transaction
-const handleEdit = async (
-  values,
-  category,
-  transaction,
-  setShow,
-  setTransactions
-) => {
+const handleEdit = async (values, category, transaction, setShow) => {
   try {
     const body = {
       tr_description: values.tr_description,
@@ -77,16 +73,11 @@ const handleEdit = async (
       tr_date: values.tr_date,
     };
     // eslint-disable-next-line
-    const response = await fetch(
+    await axios.put(
       `http://localhost:5000/transactions/${transaction.tr_id}`,
-      {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      }
+      body
     );
     setShow(false);
-    window.location.reload();
   } catch (err) {
     console.error(err.message);
     setShow(false);
@@ -109,27 +100,12 @@ const handleNewTransaction = async (
       tr_date: values.tr_date,
     };
     // eslint-disable-next-line
-    const response = await fetch(
-      `http://localhost:5000/${isIncome ? 'incomes' : 'expenses'}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
+    await axios
+      .post(`http://localhost:5000/${isIncome ? 'incomes' : 'expenses'}`, body)
+      .then(({ data }) => {
         setTransactions(data);
-        console.log(data);
       });
-
     setShow(false);
-
-    // Promise.all([response.json()]).then((object) =>
-    //   console.log(object[0]['0'])
-    // );
-    // console.log('response:>>', response.json());
-    // setTransactions();
   } catch (err) {
     console.error(err.message);
     setShow(false);
@@ -140,12 +116,7 @@ const handleNewTransaction = async (
 const handleDelete = async (id, transactions, setTransactions) => {
   try {
     // eslint-disable-next-line no-unused-vars
-    const deleteTransaction = await fetch(
-      `http://localhost:5000/transactions/${id}`,
-      {
-        method: 'DELETE',
-      }
-    );
+    await axios.delete(`http://localhost:5000/transactions/${id}`);
     setTransactions(
       transactions.filter((transaction) => transaction.tr_id !== id)
     );
