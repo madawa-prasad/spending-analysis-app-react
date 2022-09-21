@@ -32,7 +32,7 @@ app.post('/budget', async (req, res) => {
         est_income,
         est_expenditure,
         functionalData[1],
-        functionalData[3],
+        functionalData[2],
         date,
       ]
     );
